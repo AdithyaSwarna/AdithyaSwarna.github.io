@@ -44,8 +44,6 @@
     .project-card:hover { transform: translateY(-6px); box-shadow: 0 16px 24px -8px rgba(0,0,0,.15); }
     .skill-bar { height: 8px; background:#e5e7eb; border-radius:6px; overflow:hidden; }
     .skill-progress { height:100%; width:0%; transition:width 1.1s ease; }
-    .dropzone { border:2px dashed #c7d2fe; border-radius:14px; }
-    .dropzone.dragover { background:#eef2ff; border-color:#6366f1; }
   </style>
 </head>
 
@@ -65,7 +63,7 @@
           <a class="hover:text-primary" href="#projects">Projects</a>
           <a class="hover:text-primary" href="#education">Education</a>
           <a class="hover:text-primary" href="#certs">Certifications</a>
-          <a class="hover:text-primary" href="#resumes">Resumes</a>
+          <a class="hover:text-primary" href="#resumes">Resume</a>
           <a class="hover:text-primary" href="#contact">Contact</a>
         </div>
 
@@ -89,7 +87,7 @@
         <a class="py-1" href="#projects">Projects</a>
         <a class="py-1" href="#education">Education</a>
         <a class="py-1" href="#certs">Certifications</a>
-        <a class="py-1" href="#resumes">Resumes</a>
+        <a class="py-1" href="#resumes">Resume</a>
         <a class="py-1" href="#contact">Contact</a>
       </div>
     </div>
@@ -134,12 +132,12 @@
       <div class="grid md:grid-cols-3 gap-10 items-center">
         <div class="md:col-span-1 flex justify-center">
           <div class="relative w-56 h-56 rounded-full overflow-hidden ring-4 ring-primary/20 shadow">
-            <img class="w-full h-full object-cover" src="src/Adithya_Pic.png?q=80&w=800&auto=format&fit=crop" alt="Profile"/>
+            <img class="w-full h-full object-cover" src="src/Adithya_Pic.png" alt="Adithya Swarna"/>
           </div>
         </div>
         <div class="md:col-span-2">
           <p class="leading-7 text-slate-700 dark:text-slate-200">
-            Software Engineer with ~3 years’ combined experience across scalable backend systems, AI/RAG pipelines, and Oracle Fusion HCM
+            Software Engineer with 3+ years’ combined experience across scalable backend systems, AI/RAG pipelines, and Oracle Fusion HCM
             (Core HR, Payroll, Time & Labor, Absence, Benefits, Talent). Strong CS fundamentals and a delivery mindset:
             clean interfaces, observability, and iterative outcomes. Published IEEE author; built browser extensions, GPU-accelerated sims,
             ML pipelines, and production microservices. Rapid learner; thrive in ambiguity.
@@ -151,7 +149,10 @@
             <div><span class="font-semibold text-primary">LinkedIn:</span> /in/adithya-swarna-172b6046</div>
           </div>
           <div class="mt-6 flex gap-3">
-            <a href="#resumes" class="inline-flex items-center gap-2 bg-primary text-white px-5 py-2 rounded-full"><i data-feather="download"></i>View / Upload Resumes</a>
+            <a href="src/Adithya%20Swarna_Resume.pdf" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-2 bg-primary text-white px-5 py-2 rounded-full">
+              <i data-feather="file-text"></i> View Resume
+            </a>
             <a href="#contact" class="inline-flex items-center gap-2 border border-primary text-primary px-5 py-2 rounded-full"><i data-feather="send"></i>Hire Me</a>
           </div>
         </div>
@@ -397,22 +398,17 @@
     </div>
   </section>
 
-  <!-- RESUMES -->
+  <!-- RESUME (viewer only) -->
   <section id="resumes" class="py-20 bg-white dark:bg-slate-900">
-    <div class="max-w-6xl mx-auto px-6">
-      <h2 class="text-3xl font-bold mb-3 text-center">Resume <span class="text-primary">Uploads</span></h2>
-      <p class="text-center text-slate-600 dark:text-slate-300 mb-10">Upload multiple versions and keep them handy.</p>
-
-      <div id="dz" class="dropzone p-6 text-center">
-        <p class="text-sm">Drag & drop PDFs/DOCs here or</p>
-        <label class="mt-2 inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg cursor-pointer">
-          <i data-feather="upload"></i> <span>Select files</span>
-          <input id="fileInput" type="file" accept=".pdf,.doc,.docx" class="hidden" multiple>
-        </label>
-      </div>
-
-      <div id="resumeList" class="mt-8 grid md:grid-cols-2 gap-4"></div>
-      <p class="text-xs mt-4 text-slate-500">Files are kept locally in your browser (no server required).</p>
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-3">Resume</h2>
+      <p class="text-slate-600 dark:text-slate-300 mb-8">
+        Click below to open my resume as a PDF (browser viewer has download/print controls).
+      </p>
+      <a href="src/Adithya%20Swarna_Resume.pdf" target="_blank" rel="noopener"
+         class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl">
+        <i data-feather="file-text"></i> View Resume
+      </a>
     </div>
   </section>
 
@@ -423,7 +419,38 @@
       <p class="text-center text-slate-600 dark:text-slate-300 mb-8">Open to SWE, Backend, Infra, and Oracle HCM roles.</p>
 
       <div class="mx-auto max-w-2xl">
-        <div class="grid sm:grid-cols-2 gap-4 text-sm">
+        <!-- Contact form -->
+        <form id="contactForm" class="grid gap-4">
+          <label class="grid gap-2">
+            <span class="text-sm font-medium">From (your email)</span>
+            <input type="email" name="from_email" required
+                   class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800"
+                   placeholder="name@example.com">
+          </label>
+
+          <label class="grid gap-2">
+            <span class="text-sm font-medium">Subject</span>
+            <input type="text" name="subject" required
+                   class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800"
+                   placeholder="Subject">
+          </label>
+
+          <label class="grid gap-2">
+            <span class="text-sm font-medium">Message</span>
+            <textarea name="message" required rows="6"
+                      class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800"
+                      placeholder="Write your message here..."></textarea>
+          </label>
+
+          <button type="submit" class="bg-primary text-white px-6 py-3 rounded-xl">Submit</button>
+
+          <p class="text-xs text-slate-500">
+            Tip: replace the endpoint in the script with your Formspree URL to receive emails directly.
+          </p>
+        </form>
+
+        <!-- Quick links as backup -->
+        <div class="grid sm:grid-cols-2 gap-4 text-sm mt-8">
           <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3 hover:bg-indigo-50/60 dark:hover:bg-slate-800/60" href="mailto:sssnvadithya@gmail.com"><i data-feather="mail"></i>Email</a>
           <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3" href="https://github.com/AdithyaSwarna" target="_blank" rel="noopener"><i data-feather="github"></i>GitHub</a>
           <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3" href="https://www.linkedin.com/in/adithya-swarna-172b6046/" target="_blank" rel="noopener"><i data-feather="linkedin"></i>LinkedIn</a>
@@ -453,26 +480,13 @@
     <span class="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full"></span>
   </template>
 
-  <template id="resumeItemTemplate">
-    <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-start gap-4">
-      <i data-feather="file-text" class="w-5 h-5 shrink-0 mt-1"></i>
-      <div class="grow">
-        <div class="flex items-center justify-between gap-2">
-          <div class="font-medium truncate"></div>
-          <span class="text-xs text-slate-500"></span>
-        </div>
-        <div class="mt-1 text-xs text-slate-500"></div>
-        <div class="mt-3 flex gap-2">
-          <a class="view-btn inline-flex items-center gap-1 px-3 py-1 rounded-md border border-slate-200 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800" href="#" target="_blank" rel="noopener"><i data-feather="eye" class="w-4 h-4"></i> View</a>
-          <a class="dl-btn inline-flex items-center gap-1 px-3 py-1 rounded-md bg-primary text-white text-sm" href="#" download><i data-feather="download" class="w-4 h-4"></i> Download</a>
-          <button class="rm-btn inline-flex items-center gap-1 px-3 py-1 rounded-md border text-sm hover:bg-red-50 dark:hover:bg-slate-800 border-red-200 text-red-600"><i data-feather="trash-2" class="w-4 h-4"></i> Remove</button>
-        </div>
-      </div>
-    </div>
-  </template>
-
   <!-- APP SCRIPT -->
   <script>
+    // --------- Config: set your Formspree endpoint (create one free at formspree.io) ----------
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/XXXXYYYY'; // TODO: replace with your endpoint
+    const CONTACT_EMAIL = 'sssnvadithya@gmail.com'; // used for mailto fallback
+    // ------------------------------------------------------------------------------------------
+
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -517,27 +531,9 @@
       });
     }
     window.addEventListener('load', initVanta);
-    // Re-init on theme change (small delay for repaint)
     themeToggle.addEventListener('click', () => setTimeout(initVanta, 50));
 
-    // Skill component
-    function Skill({label, val}) {
-      const tpl = document.getElementById('skillTemplate');
-      const node = tpl.content.cloneNode(true);
-      node.querySelector('span.font-medium').textContent = label;
-      node.querySelectorAll('span')[1].textContent = val + '%';
-      node.querySelector('.skill-progress').style.width = '0%';
-      return node;
-    }
-    // Tag pill
-    function Tag(text){
-      const tpl = document.getElementById('tagTemplate');
-      const node = tpl.content.cloneNode(true);
-      node.querySelector('span').textContent = text;
-      return node;
-    }
-
-    // Mount custom elements (simple)
+    // Web components
     customElements.define('Skill', class extends HTMLElement {
       connectedCallback() {
         const label = this.getAttribute('label') || '';
@@ -571,65 +567,38 @@
     }, {threshold:.25});
     document.querySelectorAll('#skills .space-y-5').forEach(sec=>io.observe(sec.closest('section') || sec));
 
-    // Resume uploads (local only)
-    const fileInput = document.getElementById('fileInput');
-    const dz = document.getElementById('dz');
-    const list = document.getElementById('resumeList');
-
-    // Persist metadata (file names) to localStorage; blobs stored in memory per session
-    let resumes = []; // {name, size, type, url, date}
-    function renderList(){
-      list.innerHTML = '';
-      resumes.forEach((r, idx)=>{
-        const tpl = document.getElementById('resumeItemTemplate').content.cloneNode(true);
-        tpl.querySelector('.font-medium').textContent = r.name;
-        tpl.querySelectorAll('span.text-xs')[0].textContent = new Date(r.date).toLocaleString();
-        tpl.querySelector('.mt-1').textContent = `${(r.size/1024).toFixed(1)} KB • ${r.type || 'file'}`;
-        const view = tpl.querySelector('.view-btn');
-        const dl = tpl.querySelector('.dl-btn');
-        const rm = tpl.querySelector('.rm-btn');
-        view.href = r.url;
-        dl.href = r.url;
-        dl.download = r.name;
-        rm.addEventListener('click', ()=>{ URL.revokeObjectURL(r.url); resumes.splice(idx,1); renderList(); saveIndex(); refreshIcons(); });
-        list.appendChild(tpl);
-      });
-      refreshIcons();
-    }
-    function saveIndex(){
-      const light = resumes.map(({name,size,type,date})=>({name,size,type,date}));
-      localStorage.setItem('resumes_idx', JSON.stringify(light));
-    }
-    function restoreIndex(){
-      const idx = JSON.parse(localStorage.getItem('resumes_idx')||'[]');
-      // Empty restore (URLs are session-only); keep names for reference
-      if(idx.length){
-        resumes = idx.map(r=>({ ...r, url:'#' }));
-        renderList();
-      }
-    }
-    restoreIndex();
-
-    function handleFiles(files){
-      [...files].forEach(f=>{
-        const url = URL.createObjectURL(f);
-        resumes.unshift({ name:f.name, size:f.size, type:f.type, url, date:Date.now() });
-      });
-      renderList();
-      saveIndex();
-    }
-    fileInput.addEventListener('change', e=>handleFiles(e.target.files));
-    ;['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev, e=>{e.preventDefault(); dz.classList.add('dragover');}));
-    ;['dragleave','drop'].forEach(ev=>dz.addEventListener(ev, e=>{e.preventDefault(); if(ev==='drop'){ handleFiles(e.dataTransfer.files) } dz.classList.remove('dragover');}));
-
     // Smooth-scroll offset fix for in-page links on mobile menu
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click', ()=>{ mobileMenu.classList.add('hidden'); menuToggle.setAttribute('aria-expanded','false'); });
     });
 
-    // Repaint icons after dynamic content
-    renderList();
+    // ---------------- Contact form submit ----------------
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = {
+        email: form.from_email.value,
+        subject: form.subject.value,
+        message: form.message.value
+      };
+
+      try {
+        if (FORMSPREE_ENDPOINT.includes('XXXX')) throw new Error('No endpoint yet');
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        });
+        if (!res.ok) throw new Error('Formspree error');
+        alert('Message sent! I will get back to you soon.');
+        form.reset();
+      } catch (err) {
+        // Fallback: open mail client with subject/body prefilled
+        const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(`From: ${data.email}\n\n${data.message}`)}`;
+        window.location.href = mailto;
+      }
+    });
+    // -----------------------------------------------------
   </script>
 </body>
 </html>
-
