@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Adithya Swarna — Portfolio</title>
+  <title>Adithya Swarna — Software Engineer</title>
 
   <!-- Fonts & Tailwind -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -15,17 +15,15 @@
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <!-- EmailJS (for contact form, no URL change) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <!-- Tailwind config -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            primary: '#6366f1',
-            secondary: '#f43f5e',
-            darkbg: '#0b1220',
-          },
+          colors: { primary: '#6366f1', secondary: '#f43f5e', darkbg: '#0b1220' },
           animation: { float: 'float 6s ease-in-out infinite' },
           keyframes: { float: { '0%,100%':{transform:'translateY(0)'}, '50%':{transform:'translateY(-10px)'} } }
         }
@@ -98,7 +96,7 @@
     <div id="vanta-bg" aria-hidden="true"></div>
     <div class="max-w-6xl mx-auto px-6 pt-[calc(var(--nav-h)+3rem)] pb-24 text-center z-10">
       <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
-        Backend & AI Engineer • Oracle HCM Techno-Functional
+        Software Engineer
       </h1>
       <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-300">
         I build reliable, scalable services and human-friendly tools—shipping fast, learning faster, and obsessing over correctness and DX.
@@ -251,7 +249,7 @@
       <p class="text-center text-slate-600 dark:text-slate-300 mb-12">Real-world builds & research</p>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Each project card -->
+        <!-- Cards (unchanged) -->
         <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
           <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="RAG"/>
           <div class="p-5">
@@ -420,9 +418,16 @@
 
       <div class="mx-auto max-w-2xl">
         <!-- Contact form -->
-        <form id="contactForm" class="grid gap-4">
+        <form id="contactForm" class="grid gap-4" novalidate>
           <label class="grid gap-2">
-            <span class="text-sm font-medium">From (your email)</span>
+            <span class="text-sm font-medium">Your Name</span>
+            <input type="text" name="from_name" required
+                   class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800"
+                   placeholder="Your full name">
+          </label>
+
+          <label class="grid gap-2">
+            <span class="text-sm font-medium">Your Email</span>
             <input type="email" name="from_email" required
                    class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800"
                    placeholder="name@example.com">
@@ -443,19 +448,8 @@
           </label>
 
           <button type="submit" class="bg-primary text-white px-6 py-3 rounded-xl">Submit</button>
-
-          <p class="text-xs text-slate-500">
-            Tip: replace the endpoint in the script with your Formspree URL to receive emails directly.
-          </p>
+          <p id="contactStatus" class="text-xs text-slate-500"></p>
         </form>
-
-        <!-- Quick links as backup -->
-        <div class="grid sm:grid-cols-2 gap-4 text-sm mt-8">
-          <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3 hover:bg-indigo-50/60 dark:hover:bg-slate-800/60" href="mailto:sssnvadithya@gmail.com"><i data-feather="mail"></i>Email</a>
-          <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3" href="https://github.com/AdithyaSwarna" target="_blank" rel="noopener"><i data-feather="github"></i>GitHub</a>
-          <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3" href="https://www.linkedin.com/in/adithya-swarna-172b6046/" target="_blank" rel="noopener"><i data-feather="linkedin"></i>LinkedIn</a>
-          <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3" href="tel:+19515447715"><i data-feather="phone"></i>+1 (951) 544-7715</a>
-        </div>
       </div>
     </div>
   </section>
@@ -482,10 +476,11 @@
 
   <!-- APP SCRIPT -->
   <script>
-    // --------- Config: set your Formspree endpoint (create one free at formspree.io) ----------
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/XXXXYYYY'; // TODO: replace with your endpoint
-    const CONTACT_EMAIL = 'sssnvadithya@gmail.com'; // used for mailto fallback
-    // ------------------------------------------------------------------------------------------
+    // -------- EmailJS CONFIG (replace placeholders) --------
+    const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+    const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+    // -------------------------------------------------------
 
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -501,6 +496,7 @@
       root.classList.toggle('dark');
       localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
       feather.replace();
+      setTimeout(initVanta, 50);
     });
 
     // Mobile menu
@@ -512,8 +508,7 @@
     });
 
     // Feather icons
-    function refreshIcons(){ feather.replace(); }
-    document.addEventListener('DOMContentLoaded', refreshIcons);
+    document.addEventListener('DOMContentLoaded', ()=>feather.replace());
 
     // Vanta background
     let vanta;
@@ -531,74 +526,66 @@
       });
     }
     window.addEventListener('load', initVanta);
-    themeToggle.addEventListener('click', () => setTimeout(initVanta, 50));
 
-    // Web components
-    customElements.define('Skill', class extends HTMLElement {
-      connectedCallback() {
-        const label = this.getAttribute('label') || '';
-        const val = this.getAttribute('val') || '0';
-        const tpl = document.getElementById('skillTemplate').content.cloneNode(true);
-        tpl.querySelector('span.font-medium').textContent = label;
-        tpl.querySelectorAll('span')[1].textContent = val + '%';
-        this.appendChild(tpl);
-      }
-    });
-    customElements.define('Tag', class extends HTMLElement {
-      connectedCallback() {
-        const tpl = document.getElementById('tagTemplate').content.cloneNode(true);
-        tpl.querySelector('span').textContent = this.textContent;
-        this.textContent = '';
-        this.appendChild(tpl);
-      }
-    });
-
-    // Animate skill bars when visible
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.querySelectorAll('.skill-progress').forEach(p=>{
-            const pct = e.target.querySelectorAll('span')[1]?.textContent?.replace('%','') || '0';
-            requestAnimationFrame(()=>{ p.style.width = pct + '%'; });
-          });
-          io.unobserve(e.target);
-        }
-      });
-    }, {threshold:.25});
-    document.querySelectorAll('#skills .space-y-5').forEach(sec=>io.observe(sec.closest('section') || sec));
-
-    // Smooth-scroll offset fix for in-page links on mobile menu
+    // Smooth-scroll without showing #hash in URL
+    function smoothScrollNoHash(anchor){
+      const id = anchor.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({behavior:'smooth', block:'start'});
+      history.replaceState(null, '', location.pathname + location.search);
+      mobileMenu.classList.add('hidden');
+      menuToggle.setAttribute('aria-expanded','false');
+    }
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', ()=>{ mobileMenu.classList.add('hidden'); menuToggle.setAttribute('aria-expanded','false'); });
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        smoothScrollNoHash(a);
+      });
     });
+    // If page is opened with a hash, scroll then clear it
+    if (location.hash) {
+      const id = location.hash.slice(1);
+      setTimeout(()=>{
+        document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+        history.replaceState(null, '', location.pathname + location.search);
+      }, 0);
+    }
 
-    // ---------------- Contact form submit ----------------
+    // ---------------- Contact form submit via EmailJS (no URL change) ----------------
+    const statusEl = document.getElementById('contactStatus');
     const form = document.getElementById('contactForm');
+
+    // Initialize EmailJS
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const data = {
-        email: form.from_email.value,
-        subject: form.subject.value,
-        message: form.message.value
+      statusEl.textContent = 'Sending...';
+
+      const payload = {
+        from_name:  form.from_name.value,
+        from_email: form.from_email.value,
+        subject:    form.subject.value,
+        message:    form.message.value
       };
 
       try {
-        if (FORMSPREE_ENDPOINT.includes('XXXX')) throw new Error('No endpoint yet');
-        const res = await fetch(FORMSPREE_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form)
-        });
-        if (!res.ok) throw new Error('Formspree error');
-        alert('Message sent! I will get back to you soon.');
+        // Basic guard if keys not set
+        if (!EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID ||
+            EMAILJS_PUBLIC_KEY.includes('YOUR_') || EMAILJS_SERVICE_ID.includes('YOUR_') || EMAILJS_TEMPLATE_ID.includes('YOUR_')) {
+          throw new Error('EmailJS keys not set');
+        }
+
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, payload);
+        statusEl.textContent = 'Message sent! I will get back to you soon.';
         form.reset();
       } catch (err) {
-        // Fallback: open mail client with subject/body prefilled
-        const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(`From: ${data.email}\n\n${data.message}`)}`;
-        window.location.href = mailto;
+        console.error(err);
+        statusEl.textContent = 'Failed to send. Please try again later.';
       }
     });
-    // -----------------------------------------------------
+    // -------------------------------------------------------------------------------
   </script>
 </body>
 </html>
