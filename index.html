@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Adithya Swarna — Portfolio</title>
+
+  <!-- Fonts & Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Vendor (defer for perf) -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+  <!-- Tailwind config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6366f1',
+            secondary: '#f43f5e',
+            darkbg: '#0b1220',
+          },
+          animation: { float: 'float 6s ease-in-out infinite' },
+          keyframes: { float: { '0%,100%':{transform:'translateY(0)'}, '50%':{transform:'translateY(-10px)'} } }
+        }
+      },
+      darkMode: 'class'
+    }
+  </script>
+
+  <style>
+    :root { --nav-h: 70px; }
+    * { scroll-margin-top: calc(var(--nav-h) + 16px); }
+    html,body { height: 100%; }
+    body { font-family: 'Poppins', sans-serif; }
+    #vanta-bg { position:absolute; inset:0; z-index:-1; }
+    .project-card { transition: transform .25s ease, box-shadow .25s ease; }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 16px 24px -8px rgba(0,0,0,.15); }
+    .skill-bar { height: 8px; background:#e5e7eb; border-radius:6px; overflow:hidden; }
+    .skill-progress { height:100%; width:0%; transition:width 1.1s ease; }
+    .dropzone { border:2px dashed #c7d2fe; border-radius:14px; }
+    .dropzone.dragover { background:#eef2ff; border-color:#6366f1; }
+  </style>
+</head>
+
+<body class="bg-white text-slate-800 dark:bg-darkbg dark:text-slate-100">
+  <!-- NAV -->
+  <nav class="fixed inset-x-0 top-0 z-50 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800" style="height:var(--nav-h);">
+    <div class="max-w-6xl mx-auto h-full px-5">
+      <div class="h-full flex items-center justify-between">
+        <a href="#home" class="text-2xl font-bold tracking-tight">
+          <span class="text-primary">Adithya</span><span class="text-secondary">Swarna</span>
+        </a>
+
+        <div class="hidden md:flex gap-7 text-sm font-medium">
+          <a class="hover:text-primary" href="#about">About</a>
+          <a class="hover:text-primary" href="#skills">Skills</a>
+          <a class="hover:text-primary" href="#experience">Experience</a>
+          <a class="hover:text-primary" href="#projects">Projects</a>
+          <a class="hover:text-primary" href="#education">Education</a>
+          <a class="hover:text-primary" href="#certs">Certifications</a>
+          <a class="hover:text-primary" href="#resumes">Resumes</a>
+          <a class="hover:text-primary" href="#contact">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="themeToggle" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800" aria-label="Toggle theme">
+            <i data-feather="moon" class="w-5 h-5"></i>
+          </button>
+          <button id="menuToggle" class="md:hidden p-2 rounded-lg border border-slate-200 dark:border-slate-700" aria-label="Open menu" aria-expanded="false">
+            <i data-feather="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95">
+      <div class="max-w-6xl mx-auto px-5 py-4 flex flex-col gap-3 text-sm">
+        <a class="py-1" href="#about">About</a>
+        <a class="py-1" href="#skills">Skills</a>
+        <a class="py-1" href="#experience">Experience</a>
+        <a class="py-1" href="#projects">Projects</a>
+        <a class="py-1" href="#education">Education</a>
+        <a class="py-1" href="#certs">Certifications</a>
+        <a class="py-1" href="#resumes">Resumes</a>
+        <a class="py-1" href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div id="vanta-bg" aria-hidden="true"></div>
+    <div class="max-w-6xl mx-auto px-6 pt-[calc(var(--nav-h)+3rem)] pb-24 text-center z-10">
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
+        Backend & AI Engineer • Oracle HCM Techno-Functional
+      </h1>
+      <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-300">
+        I build reliable, scalable services and human-friendly tools—shipping fast, learning faster, and obsessing over correctness and DX.
+      </p>
+      <div class="mt-8 flex justify-center gap-4">
+        <a href="#projects" class="bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-500 shadow">
+          View Work
+        </a>
+        <a href="#contact" class="border-2 border-primary text-primary px-6 py-3 rounded-full font-semibold hover:bg-indigo-50 dark:hover:bg-slate-800/30">
+          Contact
+        </a>
+      </div>
+      <div class="mt-10 flex items-center justify-center gap-6 text-sm">
+        <a class="inline-flex items-center gap-2 hover:text-primary" href="mailto:sssnvadithya@gmail.com" rel="noopener"><i data-feather="mail"></i>Email</a>
+        <a class="inline-flex items-center gap-2 hover:text-primary" href="https://github.com/AdithyaSwarna" target="_blank" rel="noopener"><i data-feather="github"></i>GitHub</a>
+        <a class="inline-flex items-center gap-2 hover:text-primary" href="https://www.linkedin.com/in/adithya-swarna-172b6046/" target="_blank" rel="noopener"><i data-feather="linkedin"></i>LinkedIn</a>
+        <span class="inline-flex items-center gap-2"><i data-feather="map-pin"></i> San Francisco Bay Area, CA</span>
+      </div>
+    </div>
+    <a href="#about" class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-slate-500 hover:text-primary" aria-label="Scroll to About">
+      <i data-feather="chevron-down" class="w-7 h-7"></i>
+    </a>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-20 bg-white dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-3">About <span class="text-primary">Me</span></h2>
+      <p class="text-center text-slate-600 dark:text-slate-300 mb-12">Quick profile</p>
+
+      <div class="grid md:grid-cols-3 gap-10 items-center">
+        <div class="md:col-span-1 flex justify-center">
+          <div class="relative w-56 h-56 rounded-full overflow-hidden ring-4 ring-primary/20 shadow">
+            <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=800&auto=format&fit=crop" alt="Profile"/>
+          </div>
+        </div>
+        <div class="md:col-span-2">
+          <p class="leading-7 text-slate-700 dark:text-slate-200">
+            Software Engineer with ~3 years’ combined experience across scalable backend systems, AI/RAG pipelines, and Oracle Fusion HCM
+            (Core HR, Payroll, Time & Labor, Absence, Benefits, Talent). Strong CS fundamentals and a delivery mindset:
+            clean interfaces, observability, and iterative outcomes. Published IEEE author; built browser extensions, GPU-accelerated sims,
+            ML pipelines, and production microservices. Rapid learner; thrive in ambiguity.
+          </p>
+          <div class="mt-6 grid sm:grid-cols-2 gap-4 text-sm">
+            <div><span class="font-semibold text-primary">Email:</span> sssnvadithya@gmail.com</div>
+            <div><span class="font-semibold text-primary">Phone:</span> +1 (951) 544-7715</div>
+            <div><span class="font-semibold text-primary">GitHub:</span> github.com/AdithyaSwarna</div>
+            <div><span class="font-semibold text-primary">LinkedIn:</span> /in/adithya-swarna-172b6046</div>
+          </div>
+          <div class="mt-6 flex gap-3">
+            <a href="#resumes" class="inline-flex items-center gap-2 bg-primary text-white px-5 py-2 rounded-full"><i data-feather="download"></i>View / Upload Resumes</a>
+            <a href="#contact" class="inline-flex items-center gap-2 border border-primary text-primary px-5 py-2 rounded-full"><i data-feather="send"></i>Hire Me</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="py-20 bg-gray-50 dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-3">Technical <span class="text-primary">Skills</span></h2>
+      <p class="text-center text-slate-600 dark:text-slate-300 mb-12">What I use to ship</p>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Col 1 -->
+        <div class="space-y-5">
+          <Skill label="Python" val="95"></Skill>
+          <Skill label="SQL / PL/SQL" val="85"></Skill>
+          <Skill label="System Design & DS/Algo" val="85"></Skill>
+          <Skill label="Flask / FastAPI" val="80"></Skill>
+          <Skill label="Docker / CI/CD" val="80"></Skill>
+          <Skill label="AWS (core)" val="70"></Skill>
+        </div>
+        <!-- Col 2 -->
+        <div class="space-y-5">
+          <Skill label="Oracle HCM (Core HR, Payroll, OTL, Absence, Benefits, Talent)" val="88"></Skill>
+          <Skill label="HCM Extracts / BIP / Fast Formulas / HDL" val="90"></Skill>
+          <Skill label="Integrations (REST APIs, 3rd-party)" val="85"></Skill>
+          <Skill label="JavaScript / Node.js (basics)" val="65"></Skill>
+          <Skill label="React.js (basics)" val="60"></Skill>
+          <Skill label="CUDA / NumPy (perf)" val="60"></Skill>
+        </div>
+      </div>
+
+      <div class="mt-10 text-sm grid sm:grid-cols-3 gap-4">
+        <div><span class="font-semibold text-primary">Databases:</span> Oracle, PostgreSQL, DynamoDB, MongoDB</div>
+        <div><span class="font-semibold text-primary">AI / ML:</span> ML, NLP, RAG, Agents, FAISS/Chroma</div>
+        <div><span class="font-semibold text-primary">Tooling:</span> Git, GitHub, Selenium, Postman, Plotly</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="py-20 bg-white dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-12">Experience</h2>
+
+      <div class="space-y-8">
+        <!-- Techtapp -->
+        <article class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+          <header class="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 class="text-xl font-semibold">Software Engineer — Techtapp (Remote, USA)</h3>
+            <span class="text-sm text-slate-500">Jan 2025 – Present</span>
+          </header>
+          <ul class="mt-3 list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200">
+            <li>Owned critical backend services (Python/Node/AWS), improving scalability and fault tolerance.</li>
+            <li>Shipped modular microservices & REST APIs, enabling faster product iteration.</li>
+            <li>CI/CD with GitHub Actions + Docker; collaborated with React frontend to deliver cross-functional features.</li>
+          </ul>
+        </article>
+
+        <!-- UCR -->
+        <article class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+          <header class="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 class="text-xl font-semibold">Software / IT Support (Student Assistant IV) — UC Riverside</h3>
+            <span class="text-sm text-slate-500">Mar 2024 – Mar 2025</span>
+          </header>
+          <ul class="mt-3 list-disc pl-5 space-y-2">
+            <li>Automated internal IT processes with Python/Bash; supported Windows/macOS/Linux environments.</li>
+            <li>Infra maintenance, scripting, and operational efficiency improvements.</li>
+          </ul>
+        </article>
+
+        <!-- TCS -->
+        <article class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+          <header class="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 class="text-xl font-semibold">Systems Engineer — Tata Consultancy Services (Oracle HCM)</h3>
+            <span class="text-sm text-slate-500">Jan 2021 – Jul 2023</span>
+          </header>
+          <ul class="mt-3 list-disc pl-5 space-y-2">
+            <li>Implemented Global HR & Payroll (US & France) with compliance to local tax/labor laws.</li>
+            <li>Built Fast Formulas, BIP, HCM Extracts; optimized PL/SQL for faster reporting.</li>
+            <li>Integrated REST APIs with third-party systems; automated HR workflows (~40% time saved).</li>
+            <li>Led testing with Python automation, resolved cross-module issues, authored user training.</li>
+            <li>Promoted Trainee → Systems Engineer in 18 months for performance & adaptability.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="py-20 bg-gray-50 dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-3">Selected <span class="text-primary">Projects</span></h2>
+      <p class="text-center text-slate-600 dark:text-slate-300 mb-12">Real-world builds & research</p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Each project card -->
+        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="RAG"/>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">RAG Pipeline (O-RAN)</h3>
+            <p class="text-sm mt-1">Summarization & QA with chunking, embeddings (FAISS/Chroma), and context routing; Python + Flask.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <Tag>Python</Tag><Tag>Flask</Tag><Tag>FAISS</Tag><Tag>Chroma</Tag>
+            </div>
+            <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://github.com/AdithyaSwarna/LLM_ORAN_RAG/tree/main" target="_blank" rel="noopener">
+              <i data-feather="external-link"></i> Repo
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=1200&auto=format&fit=crop" alt="Chrome Ext"/>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">YouTube Timestamps Jumper</h3>
+            <p class="text-sm mt-1">Bookmark, jump, and loop specific timestamps; persistent storage.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <Tag>JavaScript</Tag><Tag>Chrome</Tag>
+            </div>
+            <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://github.com/AdithyaSwarna/youtube-timestamps-jumper/tree/main" target="_blank" rel="noopener">
+              <i data-feather="external-link"></i> Repo
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="AI Agent"/>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">AI Agent Builder (WIP)</h3>
+            <p class="text-sm mt-1">Agents on FastAPI + PostgreSQL + Redis; Dockerized with CI/CD.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <Tag>FastAPI</Tag><Tag>PostgreSQL</Tag><Tag>Redis</Tag><Tag>Docker</Tag>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop" alt="CUDA"/>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">Conway’s Game of Life (GPU)</h3>
+            <p class="text-sm mt-1">NumPy optimizations & CUDA parallelization; up to ~10× speedup.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <Tag>CUDA</Tag><Tag>NumPy</Tag><Tag>Python</Tag>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?q=80&w=1200&auto=format&fit=crop" alt="IEEE"/>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">8×8 XOR CAM — IEEE Published</h3>
+            <p class="text-sm mt-1">Low-power XOR-CAM (20ns search) with optimized SRAM and control.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <Tag>VLSI</Tag><Tag>SRAM</Tag>
+            </div>
+            <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://ieeexplore.ieee.org/document/9298389" target="_blank" rel="noopener">
+              <i data-feather="external-link"></i> Paper
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1200&auto=format&fit=crop" alt="SpaceX"/>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">SpaceX Landing Prediction</h3>
+            <p class="text-sm mt-1">ML classification with ~87% accuracy; scikit-learn + SQL, EDA & viz.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <Tag>scikit-learn</Tag><Tag>SQL</Tag><Tag>Plotly</Tag>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1542744094-24638eff58bb?q=80&w=1200&auto=format&fit=crop" alt="Automation"/>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">Automation: Python + Selenium</h3>
+            <p class="text-sm mt-1">Scraping, system tasks, and dashboards with Flask + MongoDB.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <Tag>Selenium</Tag><Tag>Flask</Tag><Tag>MongoDB</Tag>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" alt=".NET CRUD"/>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">Client–Server CRUD (C#/.NET + Flask)</h3>
+            <p class="text-sm mt-1">WPF client, Flask API, SQLite; validation, bulk delete, recovery.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <Tag>C#</Tag><Tag>.NET/WPF</Tag><Tag>Flask</Tag>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?q=80&w=1200&auto=format&fit=crop" alt="Finance Viz"/>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">Financial Data Analytics</h3>
+            <p class="text-sm mt-1">Plotly dashboards for trends & KPIs; data pipelines in Python.</p>
+            <div class="mt-3 flex flex-wrap gap-2 text-xs">
+              <Tag>Pandas</Tag><Tag>Plotly</Tag><Tag>ETL</Tag>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="py-20 bg-white dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-8 text-center">Education</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+          <h3 class="font-semibold text-lg">M.S., Computer Science & Engineering</h3>
+          <p class="text-sm text-slate-500">University of California, Riverside — GPA 3.8/4.0</p>
+          <p class="text-sm mt-1">Sep 2023 – Mar 2025</p>
+        </div>
+        <div class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+          <h3 class="font-semibold text-lg">B.Tech, Electronics & Communication</h3>
+          <p class="text-sm text-slate-500">JNTU Hyderabad — CGPA 8.48/10</p>
+          <p class="text-sm mt-1">Sep 2016 – Sep 2020</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certs" class="py-20 bg-gray-50 dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-8 text-center">Certifications</h2>
+      <ul class="grid md:grid-cols-2 gap-4 text-sm">
+        <li class="p-4 rounded-lg border border-slate-200 dark:border-slate-800">IBM Data Science (Coursera)</li>
+        <li class="p-4 rounded-lg border border-slate-200 dark:border-slate-800">Programming for Everybody</li>
+        <li class="p-4 rounded-lg border border-slate-200 dark:border-slate-800">Python Data Structures</li>
+        <li class="p-4 rounded-lg border border-slate-200 dark:border-slate-800">Using Python to Access Web Data</li>
+        <li class="p-4 rounded-lg border border-slate-200 dark:border-slate-800">Using Databases with Python</li>
+        <li class="p-4 rounded-lg border border-slate-200 dark:border-slate-800">Algorithms (Coursera)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- RESUMES -->
+  <section id="resumes" class="py-20 bg-white dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-3 text-center">Resume <span class="text-primary">Uploads</span></h2>
+      <p class="text-center text-slate-600 dark:text-slate-300 mb-10">Upload multiple versions and keep them handy.</p>
+
+      <div id="dz" class="dropzone p-6 text-center">
+        <p class="text-sm">Drag & drop PDFs/DOCs here or</p>
+        <label class="mt-2 inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg cursor-pointer">
+          <i data-feather="upload"></i> <span>Select files</span>
+          <input id="fileInput" type="file" accept=".pdf,.doc,.docx" class="hidden" multiple>
+        </label>
+      </div>
+
+      <div id="resumeList" class="mt-8 grid md:grid-cols-2 gap-4"></div>
+      <p class="text-xs mt-4 text-slate-500">Files are kept locally in your browser (no server required).</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-20 bg-gray-50 dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-3 text-center">Get in <span class="text-primary">Touch</span></h2>
+      <p class="text-center text-slate-600 dark:text-slate-300 mb-8">Open to SWE, Backend, Infra, and Oracle HCM roles.</p>
+
+      <div class="mx-auto max-w-2xl">
+        <div class="grid sm:grid-cols-2 gap-4 text-sm">
+          <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3 hover:bg-indigo-50/60 dark:hover:bg-slate-800/60" href="mailto:sssnvadithya@gmail.com"><i data-feather="mail"></i>Email</a>
+          <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3" href="https://github.com/AdithyaSwarna" target="_blank" rel="noopener"><i data-feather="github"></i>GitHub</a>
+          <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3" href="https://www.linkedin.com/in/adithya-swarna-172b6046/" target="_blank" rel="noopener"><i data-feather="linkedin"></i>LinkedIn</a>
+          <a class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-3" href="tel:+19515447715"><i data-feather="phone"></i>+1 (951) 544-7715</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-8 text-center text-xs text-slate-500 dark:text-slate-400">
+    © <span id="year"></span> Adithya Swarna — Built with ♥
+  </footer>
+
+  <!-- TEMPLATES (mini web-components) -->
+  <template id="skillTemplate">
+    <div>
+      <div class="flex items-center justify-between mb-1">
+        <span class="font-medium"></span><span class="text-xs text-slate-500"></span>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-progress bg-primary"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tagTemplate">
+    <span class="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full"></span>
+  </template>
+
+  <template id="resumeItemTemplate">
+    <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-start gap-4">
+      <i data-feather="file-text" class="w-5 h-5 shrink-0 mt-1"></i>
+      <div class="grow">
+        <div class="flex items-center justify-between gap-2">
+          <div class="font-medium truncate"></div>
+          <span class="text-xs text-slate-500"></span>
+        </div>
+        <div class="mt-1 text-xs text-slate-500"></div>
+        <div class="mt-3 flex gap-2">
+          <a class="view-btn inline-flex items-center gap-1 px-3 py-1 rounded-md border border-slate-200 dark:border-slate-700 text-sm hover:bg-slate-50 dark:hover:bg-slate-800" href="#" target="_blank" rel="noopener"><i data-feather="eye" class="w-4 h-4"></i> View</a>
+          <a class="dl-btn inline-flex items-center gap-1 px-3 py-1 rounded-md bg-primary text-white text-sm" href="#" download><i data-feather="download" class="w-4 h-4"></i> Download</a>
+          <button class="rm-btn inline-flex items-center gap-1 px-3 py-1 rounded-md border text-sm hover:bg-red-50 dark:hover:bg-slate-800 border-red-200 text-red-600"><i data-feather="trash-2" class="w-4 h-4"></i> Remove</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- APP SCRIPT -->
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Theme toggle with persistence
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      root.classList.add('dark');
+    }
+    themeToggle.addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+      feather.replace();
+    });
+
+    // Mobile menu
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle.addEventListener('click', () => {
+      const show = mobileMenu.classList.toggle('hidden') === false;
+      menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+    });
+
+    // Feather icons
+    function refreshIcons(){ feather.replace(); }
+    document.addEventListener('DOMContentLoaded', refreshIcons);
+
+    // Vanta background
+    let vanta;
+    function initVanta(){
+      if (vanta) vanta.destroy();
+      vanta = VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        color: 0x6366f1,
+        backgroundColor: document.documentElement.classList.contains('dark') ? 0x0b1220 : 0xffffff,
+        points: 10.0,
+        maxDistance: 22.0,
+        spacing: 16.0
+      });
+    }
+    window.addEventListener('load', initVanta);
+    // Re-init on theme change (small delay for repaint)
+    themeToggle.addEventListener('click', () => setTimeout(initVanta, 50));
+
+    // Skill component
+    function Skill({label, val}) {
+      const tpl = document.getElementById('skillTemplate');
+      const node = tpl.content.cloneNode(true);
+      node.querySelector('span.font-medium').textContent = label;
+      node.querySelectorAll('span')[1].textContent = val + '%';
+      node.querySelector('.skill-progress').style.width = '0%';
+      return node;
+    }
+    // Tag pill
+    function Tag(text){
+      const tpl = document.getElementById('tagTemplate');
+      const node = tpl.content.cloneNode(true);
+      node.querySelector('span').textContent = text;
+      return node;
+    }
+
+    // Mount custom elements (simple)
+    customElements.define('Skill', class extends HTMLElement {
+      connectedCallback() {
+        const label = this.getAttribute('label') || '';
+        const val = this.getAttribute('val') || '0';
+        const tpl = document.getElementById('skillTemplate').content.cloneNode(true);
+        tpl.querySelector('span.font-medium').textContent = label;
+        tpl.querySelectorAll('span')[1].textContent = val + '%';
+        this.appendChild(tpl);
+      }
+    });
+    customElements.define('Tag', class extends HTMLElement {
+      connectedCallback() {
+        const tpl = document.getElementById('tagTemplate').content.cloneNode(true);
+        tpl.querySelector('span').textContent = this.textContent;
+        this.textContent = '';
+        this.appendChild(tpl);
+      }
+    });
+
+    // Animate skill bars when visible
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.querySelectorAll('.skill-progress').forEach(p=>{
+            const pct = e.target.querySelectorAll('span')[1]?.textContent?.replace('%','') || '0';
+            requestAnimationFrame(()=>{ p.style.width = pct + '%'; });
+          });
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:.25});
+    document.querySelectorAll('#skills .space-y-5').forEach(sec=>io.observe(sec.closest('section') || sec));
+
+    // Resume uploads (local only)
+    const fileInput = document.getElementById('fileInput');
+    const dz = document.getElementById('dz');
+    const list = document.getElementById('resumeList');
+
+    // Persist metadata (file names) to localStorage; blobs stored in memory per session
+    let resumes = []; // {name, size, type, url, date}
+    function renderList(){
+      list.innerHTML = '';
+      resumes.forEach((r, idx)=>{
+        const tpl = document.getElementById('resumeItemTemplate').content.cloneNode(true);
+        tpl.querySelector('.font-medium').textContent = r.name;
+        tpl.querySelectorAll('span.text-xs')[0].textContent = new Date(r.date).toLocaleString();
+        tpl.querySelector('.mt-1').textContent = `${(r.size/1024).toFixed(1)} KB • ${r.type || 'file'}`;
+        const view = tpl.querySelector('.view-btn');
+        const dl = tpl.querySelector('.dl-btn');
+        const rm = tpl.querySelector('.rm-btn');
+        view.href = r.url;
+        dl.href = r.url;
+        dl.download = r.name;
+        rm.addEventListener('click', ()=>{ URL.revokeObjectURL(r.url); resumes.splice(idx,1); renderList(); saveIndex(); refreshIcons(); });
+        list.appendChild(tpl);
+      });
+      refreshIcons();
+    }
+    function saveIndex(){
+      const light = resumes.map(({name,size,type,date})=>({name,size,type,date}));
+      localStorage.setItem('resumes_idx', JSON.stringify(light));
+    }
+    function restoreIndex(){
+      const idx = JSON.parse(localStorage.getItem('resumes_idx')||'[]');
+      // Empty restore (URLs are session-only); keep names for reference
+      if(idx.length){
+        resumes = idx.map(r=>({ ...r, url:'#' }));
+        renderList();
+      }
+    }
+    restoreIndex();
+
+    function handleFiles(files){
+      [...files].forEach(f=>{
+        const url = URL.createObjectURL(f);
+        resumes.unshift({ name:f.name, size:f.size, type:f.type, url, date:Date.now() });
+      });
+      renderList();
+      saveIndex();
+    }
+    fileInput.addEventListener('change', e=>handleFiles(e.target.files));
+    ;['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev, e=>{e.preventDefault(); dz.classList.add('dragover');}));
+    ;['dragleave','drop'].forEach(ev=>dz.addEventListener(ev, e=>{e.preventDefault(); if(ev==='drop'){ handleFiles(e.dataTransfer.files) } dz.classList.remove('dragover');}));
+
+    // Smooth-scroll offset fix for in-page links on mobile menu
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', ()=>{ mobileMenu.classList.add('hidden'); menuToggle.setAttribute('aria-expanded','false'); });
+    });
+
+    // Repaint icons after dynamic content
+    renderList();
+  </script>
+</body>
+</html>
