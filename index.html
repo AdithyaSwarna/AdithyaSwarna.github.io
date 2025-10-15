@@ -38,10 +38,54 @@
     html,body { height: 100%; }
     body { font-family: 'Poppins', sans-serif; }
     #vanta-bg { position:absolute; inset:0; z-index:-1; }
-    .project-card { transition: transform .25s ease, box-shadow .25s ease; }
-    .project-card:hover { transform: translateY(-6px); box-shadow: 0 16px 24px -8px rgba(0,0,0,.15); }
     .skill-bar { height: 8px; background:#e5e7eb; border-radius:6px; overflow:hidden; }
     .skill-progress { height:100%; width:0%; transition:width 1.1s ease; }
+
+    /* ==== Flip Cards (Fixed visibility + height) ==== */
+    .project-card {
+      perspective: 1000px;
+      cursor: pointer;
+      height: 340px;             /* ensure both faces share height */
+      position: relative;
+      border-radius: 0.75rem;    /* match rounded corners */
+      overflow: hidden;          /* keep faces clipped to radius */
+    }
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+    .project-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .flip-front {
+      background-color: inherit;
+      z-index: 2;
+    }
+    .flip-front img {
+      height: 160px;
+      width: 100%;
+      object-fit: cover;
+    }
+    .flip-back {
+      background-color: inherit;
+      transform: rotateY(180deg);
+      padding: 1.25rem;
+      overflow-y: auto;          /* scroll if points exceed card height */
+      z-index: 1;
+    }
+    .flip-bullets li { list-style: disc; margin-left: 1rem; }
+    .project-card:focus { outline: 3px solid rgba(99,102,241,.6); outline-offset: 2px; }
   </style>
 </head>
 
@@ -95,19 +139,13 @@
   <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
     <div id="vanta-bg" aria-hidden="true"></div>
     <div class="max-w-6xl mx-auto px-6 pt-[calc(var(--nav-h)+3rem)] pb-24 text-center z-10">
-      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
-        Software Engineer
-      </h1>
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Software Engineer</h1>
       <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-300">
         I build reliable, scalable services and human-friendly tools—shipping fast, learning faster, and obsessing over correctness and DX.
       </p>
       <div class="mt-8 flex justify-center gap-4">
-        <a href="#projects" class="bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-500 shadow">
-          View Work
-        </a>
-        <a href="#contact" class="border-2 border-primary text-primary px-6 py-3 rounded-full font-semibold hover:bg-indigo-50 dark:hover:bg-slate-800/30">
-          Contact
-        </a>
+        <a href="#projects" class="bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-500 shadow">View Work</a>
+        <a href="#contact" class="border-2 border-primary text-primary px-6 py-3 rounded-full font-semibold hover:bg-indigo-50 dark:hover:bg-slate-800/30">Contact</a>
       </div>
       <div class="mt-10 flex items-center justify-center gap-6 text-sm">
         <a class="inline-flex items-center gap-2 hover:text-primary" href="mailto:sssnvadithya@gmail.com" rel="noopener"><i data-feather="mail"></i>Email</a>
@@ -135,10 +173,9 @@
         </div>
         <div class="md:col-span-2">
           <p class="leading-7 text-slate-700 dark:text-slate-200">
-            Software Engineer with 3+ years’ combined experience across scalable backend systems, AI/RAG pipelines, and Oracle Fusion HCM
-            (Core HR, Payroll, Time & Labor, Absence, Benefits, Talent). Strong CS fundamentals and a delivery mindset:
-            clean interfaces, observability, and iterative outcomes. Published IEEE author; built browser extensions, GPU-accelerated sims,
-            ML pipelines, and production microservices. Rapid learner; thrive in ambiguity.
+            Software Engineer with experience across scalable backends, data pipelines, and applied ML.
+            Strong CS fundamentals and a delivery mindset: clean interfaces, observability, and iterative outcomes.
+            Published IEEE author; built browser extensions, GPU-accelerated sims, ML pipelines, and production microservices.
           </p>
           <div class="mt-6 grid sm:grid-cols-2 gap-4 text-sm">
             <div><span class="font-semibold text-primary">Email:</span> sssnvadithya@gmail.com</div>
@@ -168,27 +205,26 @@
         <!-- Col 1 -->
         <div class="space-y-5">
           <Skill label="Python" val="95"></Skill>
-          <Skill label="SQL / PL/SQL" val="85"></Skill>
           <Skill label="System Design & DS/Algo" val="85"></Skill>
-          <Skill label="Flask / FastAPI" val="80"></Skill>
+          <Skill label="Flask / FastAPI" val="85"></Skill>
+          <Skill label="SQL / PL/SQL" val="80"></Skill>
           <Skill label="Docker / CI/CD" val="80"></Skill>
           <Skill label="AWS (core)" val="70"></Skill>
         </div>
         <!-- Col 2 -->
         <div class="space-y-5">
-          <Skill label="Oracle HCM (Core HR, Payroll, OTL, Absence, Benefits, Talent)" val="88"></Skill>
-          <Skill label="HCM Extracts / BIP / Fast Formulas / HDL" val="90"></Skill>
           <Skill label="Integrations (REST APIs, 3rd-party)" val="85"></Skill>
           <Skill label="JavaScript / Node.js (basics)" val="65"></Skill>
           <Skill label="React.js (basics)" val="60"></Skill>
           <Skill label="CUDA / NumPy (perf)" val="60"></Skill>
+          <Skill label="Testing & Automation (Selenium, PyTest)" val="70"></Skill>
         </div>
       </div>
 
       <div class="mt-10 text-sm grid sm:grid-cols-3 gap-4">
-        <div><span class="font-semibold text-primary">Databases:</span> Oracle, PostgreSQL, DynamoDB, MongoDB</div>
-        <div><span class="font-semibold text-primary">AI / ML:</span> ML, NLP, RAG, Agents, FAISS/Chroma</div>
-        <div><span class="font-semibold text-primary">Tooling:</span> Git, GitHub, Selenium, Postman, Plotly</div>
+        <div><span class="font-semibold text-primary">Databases:</span> PostgreSQL, Oracle, SQLite, MongoDB</div>
+        <div><span class="font-semibold text-primary">AI / ML:</span> ML, NLP, RAG, FAISS/Chroma</div>
+        <div><span class="font-semibold text-primary">Tooling:</span> Git, GitHub, Postman, Plotly</div>
       </div>
     </div>
   </section>
@@ -199,7 +235,6 @@
       <h2 class="text-3xl font-bold text-center mb-12">Experience</h2>
 
       <div class="space-y-8">
-        <!-- Techtapp -->
         <article class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
           <header class="flex flex-wrap items-baseline justify-between gap-2">
             <h3 class="text-xl font-semibold">Software Engineer — Techtapp (Remote, USA)</h3>
@@ -208,34 +243,30 @@
           <ul class="mt-3 list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200">
             <li>Owned critical backend services (Python/Node/AWS), improving scalability and fault tolerance.</li>
             <li>Shipped modular microservices & REST APIs, enabling faster product iteration.</li>
-            <li>CI/CD with GitHub Actions + Docker; collaborated with React frontend to deliver cross-functional features.</li>
+            <li>CI/CD with GitHub Actions + Docker; collaborated with frontend to deliver cross-functional features.</li>
           </ul>
         </article>
 
-        <!-- UCR -->
         <article class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
           <header class="flex flex-wrap items-baseline justify-between gap-2">
             <h3 class="text-xl font-semibold">Software / IT Support (Student Assistant IV) — UC Riverside</h3>
             <span class="text-sm text-slate-500">Mar 2024 – Mar 2025</span>
           </header>
           <ul class="mt-3 list-disc pl-5 space-y-2">
-            <li>Automated internal IT processes with Python/Bash; supported Windows/macOS/Linux environments.</li>
-            <li>Infra maintenance, scripting, and operational efficiency improvements.</li>
+            <li>Automated internal processes with Python/Bash; supported Windows/macOS/Linux environments.</li>
+            <li>Infrastructure maintenance, scripting, and operational efficiency improvements.</li>
           </ul>
         </article>
 
-        <!-- TCS -->
         <article class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
           <header class="flex flex-wrap items-baseline justify-between gap-2">
-            <h3 class="text-xl font-semibold">Systems Engineer — Tata Consultancy Services (Oracle HCM)</h3>
+            <h3 class="text-xl font-semibold">Systems Engineer — Enterprise Systems</h3>
             <span class="text-sm text-slate-500">Jan 2021 – Jul 2023</span>
           </header>
           <ul class="mt-3 list-disc pl-5 space-y-2">
-            <li>Implemented Global HR & Payroll (US & France) with compliance to local tax/labor laws.</li>
-            <li>Built Fast Formulas, BIP, HCM Extracts; optimized PL/SQL for faster reporting.</li>
-            <li>Integrated REST APIs with third-party systems; automated HR workflows (~40% time saved).</li>
-            <li>Led testing with Python automation, resolved cross-module issues, authored user training.</li>
-            <li>Promoted Trainee → Systems Engineer in 18 months for performance & adaptability.</li>
+            <li>Built integrations & data pipelines; optimized SQL for reporting latency and throughput.</li>
+            <li>Developed internal tooling and automated regression tests to improve release quality.</li>
+            <li>Partnered with cross-functional teams to triage incidents and reduce MTTR.</li>
           </ul>
         </article>
       </div>
@@ -246,119 +277,218 @@
   <section id="projects" class="py-20 bg-gray-50 dark:bg-slate-950">
     <div class="max-w-6xl mx-auto px-6">
       <h2 class="text-3xl font-bold text-center mb-3">Selected <span class="text-primary">Projects</span></h2>
-      <p class="text-center text-slate-600 dark:text-slate-300 mb-12">Real-world builds & research</p>
+      <p class="text-center text-slate-600 dark:text-slate-300 mb-12">Click a card to flip for details</p>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Cards (unchanged) -->
-        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="RAG"/>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">RAG Pipeline (O-RAN)</h3>
-            <p class="text-sm mt-1">Summarization & QA with chunking, embeddings (FAISS/Chroma), and context routing; Python + Flask.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <Tag>Python</Tag><Tag>Flask</Tag><Tag>FAISS</Tag><Tag>Chroma</Tag>
+        <!-- RAG Pipeline -->
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="RAG Pipeline details">
+          <div class="flip-inner">
+            <div class="flip-front flip-face">
+              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="RAG">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg">RAG Pipeline (O-RAN)</h3>
+                <p class="text-sm mt-1">Summarization & QA with chunking, embeddings, and context routing; Python + Flask.</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                  <Tag>Python</Tag><Tag>Flask</Tag><Tag>FAISS</Tag><Tag>Chroma</Tag>
+                </div>
+                <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://github.com/AdithyaSwarna/LLM_ORAN_RAG/tree/main" target="_blank" rel="noopener"><i data-feather="external-link"></i> Repo</a>
+              </div>
             </div>
-            <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://github.com/AdithyaSwarna/LLM_ORAN_RAG/tree/main" target="_blank" rel="noopener">
-              <i data-feather="external-link"></i> Repo
-            </a>
-          </div>
-        </div>
-
-        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=1200&auto=format&fit=crop" alt="Chrome Ext"/>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">YouTube Timestamps Jumper</h3>
-            <p class="text-sm mt-1">Bookmark, jump, and loop specific timestamps; persistent storage.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <Tag>JavaScript</Tag><Tag>Chrome</Tag>
-            </div>
-            <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://github.com/AdithyaSwarna/youtube-timestamps-jumper/tree/main" target="_blank" rel="noopener">
-              <i data-feather="external-link"></i> Repo
-            </a>
-          </div>
-        </div>
-
-        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="AI Agent"/>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">AI Agent Builder (WIP)</h3>
-            <p class="text-sm mt-1">Agents on FastAPI + PostgreSQL + Redis; Dockerized with CI/CD.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <Tag>FastAPI</Tag><Tag>PostgreSQL</Tag><Tag>Redis</Tag><Tag>Docker</Tag>
+            <div class="flip-back flip-face">
+              <h4 class="font-semibold mb-2">Highlights</h4>
+              <ul class="text-sm flip-bullets space-y-2">
+                <li>Ingestion → cleaning → dynamic chunking → Nomic embeddings → FAISS retrieval (+rerank).</li>
+                <li>Latency-aware prompt flow; context windows tuned via evals on held-out questions.</li>
+                <li>Guardrails for citation & answer length; modular pipeline ready for UI upload flow.</li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop" alt="CUDA"/>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">Conway’s Game of Life (GPU)</h3>
-            <p class="text-sm mt-1">NumPy optimizations & CUDA parallelization; up to ~10× speedup.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <Tag>CUDA</Tag><Tag>NumPy</Tag><Tag>Python</Tag>
+        <!-- YouTube Timestamps Jumper -->
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="YouTube Timestamps Jumper details">
+          <div class="flip-inner">
+            <div class="flip-front flip-face">
+              <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=1200&auto=format&fit=crop" alt="Chrome Ext">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg">YouTube Timestamps Jumper</h3>
+                <p class="text-sm mt-1">Bookmark, jump, and loop specific timestamps; persistent storage.</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                  <Tag>JavaScript</Tag><Tag>Chrome</Tag>
+                </div>
+                <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://github.com/AdithyaSwarna/youtube-timestamps-jumper/tree/main" target="_blank" rel="noopener"><i data-feather="external-link"></i> Repo</a>
+              </div>
+            </div>
+            <div class="flip-back flip-face">
+              <h4 class="font-semibold mb-2">Highlights</h4>
+              <ul class="text-sm flip-bullets space-y-2">
+                <li>Content-script overlay with keyboard shortcuts for set/jump/loop segments.</li>
+                <li>Syncs marks using Chrome storage APIs; resilient to page reloads & navigation.</li>
+                <li>Lightweight architecture for low overhead on video playback.</li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?q=80&w=1200&auto=format&fit=crop" alt="IEEE"/>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">8×8 XOR CAM — IEEE Published</h3>
-            <p class="text-sm mt-1">Low-power XOR-CAM (20ns search) with optimized SRAM and control.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <Tag>VLSI</Tag><Tag>SRAM</Tag>
+        <!-- AI Agent Builder -->
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="AI Agent Builder details">
+          <div class="flip-inner">
+            <div class="flip-front flip-face">
+              <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="AI Agent">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg">AI Agent Builder (WIP)</h3>
+                <p class="text-sm mt-1">Agents on FastAPI + PostgreSQL + Redis; Dockerized with CI/CD.</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                  <Tag>FastAPI</Tag><Tag>PostgreSQL</Tag><Tag>Redis</Tag><Tag>Docker</Tag>
+                </div>
+              </div>
             </div>
-            <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://ieeexplore.ieee.org/document/9298389" target="_blank" rel="noopener">
-              <i data-feather="external-link"></i> Paper
-            </a>
-          </div>
-        </div>
-
-        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1200&auto=format&fit=crop" alt="SpaceX"/>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">SpaceX Landing Prediction</h3>
-            <p class="text-sm mt-1">ML classification with ~87% accuracy; scikit-learn + SQL, EDA & viz.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <Tag>scikit-learn</Tag><Tag>SQL</Tag><Tag>Plotly</Tag>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1542744094-24638eff58bb?q=80&w=1200&auto=format&fit=crop" alt="Automation"/>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">Automation: Python + Selenium</h3>
-            <p class="text-sm mt-1">Scraping, system tasks, and dashboards with Flask + MongoDB.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <Tag>Selenium</Tag><Tag>Flask</Tag><Tag>MongoDB</Tag>
+            <div class="flip-back flip-face">
+              <h4 class="font-semibold mb-2">Highlights</h4>
+              <ul class="text-sm flip-bullets space-y-2">
+                <li>Planner–executor design with vector memory & task queues (Redis streams).</li>
+                <li>Typed API, pydantic models, and unit tests; GitHub Actions for CI.</li>
+                <li>Containerized microservices for local dev + staged deployment.</li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" alt=".NET CRUD"/>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">Client–Server CRUD (C#/.NET + Flask)</h3>
-            <p class="text-sm mt-1">WPF client, Flask API, SQLite; validation, bulk delete, recovery.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <Tag>C#</Tag><Tag>.NET/WPF</Tag><Tag>Flask</Tag>
+        <!-- Conway’s Game of Life -->
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="Conway's Game of Life details">
+          <div class="flip-inner">
+            <div class="flip-front flip-face">
+              <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop" alt="CUDA">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg">Conway’s Game of Life (GPU)</h3>
+                <p class="text-sm mt-1">NumPy optimizations & CUDA parallelization; up to ~10× speedup.</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                  <Tag>CUDA</Tag><Tag>NumPy</Tag><Tag>Python</Tag>
+                </div>
+              </div>
+            </div>
+            <div class="flip-back flip-face">
+              <h4 class="font-semibold mb-2">Highlights</h4>
+              <ul class="text-sm flip-bullets space-y-2">
+                <li>Tiled memory access & shared-memory kernels; minimized global reads.</li>
+                <li>Vectorized CPU baseline vs CUDA benchmarks; deterministic stepper.</li>
+                <li>Interactive visualization for pattern evolution & performance demos.</li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div class="project-card bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-          <img class="h-40 w-full object-cover" src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?q=80&w=1200&auto=format&fit=crop" alt="Finance Viz"/>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">Financial Data Analytics</h3>
-            <p class="text-sm mt-1">Plotly dashboards for trends & KPIs; data pipelines in Python.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <Tag>Pandas</Tag><Tag>Plotly</Tag><Tag>ETL</Tag>
+        <!-- 8×8 XOR CAM -->
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="8x8 XOR CAM details">
+          <div class="flip-inner">
+            <div class="flip-front flip-face">
+              <img src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?q=80&w=1200&auto=format&fit=crop" alt="IEEE">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg">8×8 XOR CAM — IEEE Published</h3>
+                <p class="text-sm mt-1">Low-power XOR-CAM (20ns search) with optimized SRAM and control.</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>VLSI</Tag><Tag>SRAM</Tag></div>
+                <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://ieeexplore.ieee.org/document/9298389" target="_blank" rel="noopener"><i data-feather="external-link"></i> Paper</a>
+              </div>
+            </div>
+            <div class="flip-back flip-face">
+              <h4 class="font-semibold mb-2">Highlights</h4>
+              <ul class="text-sm flip-bullets space-y-2">
+                <li>Custom XOR match-line design for content address with improved energy profile.</li>
+                <li>SRAM-based array, control FSM, and simulation testbench for timing/power.</li>
+                <li>Peer-reviewed publication; reproducible methodology & results.</li>
+              </ul>
             </div>
           </div>
         </div>
-      </div>
 
+        <!-- SpaceX Landing -->
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="SpaceX landing prediction details">
+          <div class="flip-inner">
+            <div class="flip-front flip-face">
+              <img src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1200&auto=format&fit=crop" alt="SpaceX">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg">SpaceX Landing Prediction</h3>
+                <p class="text-sm mt-1">ML classification with ~87% accuracy; scikit-learn + SQL, EDA & viz.</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>scikit-learn</Tag><Tag>SQL</Tag><Tag>Plotly</Tag></div>
+              </div>
+            </div>
+            <div class="flip-back flip-face">
+              <h4 class="font-semibold mb-2">Highlights</h4>
+              <ul class="text-sm flip-bullets space-y-2">
+                <li>Feature engineering from telemetry; class imbalance handled via stratified CV.</li>
+                <li>Compared tree-based models & logistic regression; SHAP for feature importance.</li>
+                <li>Interactive dashboards for model insights and scenario exploration.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automation: Selenium -->
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="Automation project details">
+          <div class="flip-inner">
+            <div class="flip-front flip-face">
+              <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?q=80&w=1200&auto=format&fit=crop" alt="Automation">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg">Automation: Python + Selenium</h3>
+                <p class="text-sm mt-1">Scraping, system tasks, and dashboards with Flask + MongoDB.</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>Selenium</Tag><Tag>Flask</Tag><Tag>MongoDB</Tag></div>
+              </div>
+            </div>
+            <div class="flip-back flip-face">
+              <h4 class="font-semibold mb-2">Highlights</h4>
+              <ul class="text-sm flip-bullets space-y-2">
+                <li>Headless crawlers with login flows, retries, and structured extraction.</li>
+                <li>REST endpoints for jobs & results; dashboard for status/metrics.</li>
+                <li>Background workers for stability; configurable schedules.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Client–Server CRUD -->
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="Client–Server CRUD details">
+          <div class="flip-inner">
+            <div class="flip-front flip-face">
+              <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" alt=".NET CRUD">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg">Client–Server CRUD (C#/.NET + Flask)</h3>
+                <p class="text-sm mt-1">WPF client, Flask API, SQLite; validation, bulk delete, recovery.</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>C#</Tag><Tag>.NET/WPF</Tag><Tag>Flask</Tag></div>
+              </div>
+            </div>
+            <div class="flip-back flip-face">
+              <h4 class="font-semibold mb-2">Highlights</h4>
+              <ul class="text-sm flip-bullets space-y-2">
+                <li>MVVM WPF client with offline cache; token auth to Flask backend.</li>
+                <li>Pagination, search, bulk operations, and soft-delete recovery.</li>
+                <li>Input validation & error boundaries; unit tests for service layer.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Financial Data Analytics -->
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="Financial analytics details">
+          <div class="flip-inner">
+            <div class="flip-front flip-face">
+              <img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?q=80&w=1200&auto=format&fit=crop" alt="Finance Viz">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg">Financial Data Analytics</h3>
+                <p class="text-sm mt-1">Plotly dashboards for trends & KPIs; data pipelines in Python.</p>
+                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>Pandas</Tag><Tag>Plotly</Tag><Tag>ETL</Tag></div>
+              </div>
+            </div>
+            <div class="flip-back flip-face">
+              <h4 class="font-semibold mb-2">Highlights</h4>
+              <ul class="text-sm flip-bullets space-y-2">
+                <li>ETL jobs to unify CSV/API sources; robust parsing & schema checks.</li>
+                <li>Time-series KPIs, anomaly detection, and alert thresholds.</li>
+                <li>Exportable visuals for reports; parameterized filters.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div> <!-- grid -->
     </div>
   </section>
 
@@ -369,12 +499,12 @@
       <div class="grid md:grid-cols-2 gap-6">
         <div class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
           <h3 class="font-semibold text-lg">M.S., Computer Science & Engineering</h3>
-          <p class="text-sm text-slate-500">University of California, Riverside — GPA 3.8/4.0</p>
+          <p class="text-sm text-slate-500">University of California, Riverside</p>
           <p class="text-sm mt-1">Sep 2023 – Mar 2025</p>
         </div>
         <div class="p-6 rounded-xl border border-slate-200 dark:border-slate-800">
           <h3 class="font-semibold text-lg">B.Tech, Electronics & Communication</h3>
-          <p class="text-sm text-slate-500">JNTU Hyderabad — CGPA 8.48/10</p>
+          <p class="text-sm text-slate-500">JNTU Hyderabad</p>
           <p class="text-sm mt-1">Sep 2016 – Sep 2020</p>
         </div>
       </div>
@@ -414,7 +544,7 @@
   <section id="contact" class="py-20 bg-gray-50 dark:bg-slate-950">
     <div class="max-w-6xl mx-auto px-6">
       <h2 class="text-3xl font-bold mb-3 text-center">Get in <span class="text-primary">Touch</span></h2>
-      <p class="text-center text-slate-600 dark:text-slate-300 mb-8">Open to SWE, Backend, Infra, and Oracle HCM roles.</p>
+      <p class="text-center text-slate-600 dark:text-slate-300 mb-8">Open to SWE, Backend, Infra, and data-driven roles.</p>
 
       <div class="mx-auto max-w-2xl">
         <!-- Contact form -->
@@ -527,7 +657,7 @@
     }
     window.addEventListener('load', initVanta);
 
-    // Smooth-scroll without showing #hash in URL
+    // Smooth-scroll offset fix & hide hash in URL
     function smoothScrollNoHash(anchor){
       const id = anchor.getAttribute('href').slice(1);
       const el = document.getElementById(id);
@@ -543,7 +673,6 @@
         smoothScrollNoHash(a);
       });
     });
-    // If page is opened with a hash, scroll then clear it
     if (location.hash) {
       const id = location.hash.slice(1);
       setTimeout(()=>{
@@ -552,31 +681,58 @@
       }, 0);
     }
 
-    // ---------------- Contact form submit via EmailJS (no URL change) ----------------
+    // Simple web-components
+    customElements.define('Skill', class extends HTMLElement {
+      connectedCallback() {
+        const label = this.getAttribute('label') || '';
+        const val = this.getAttribute('val') || '0';
+        const tpl = document.getElementById('skillTemplate').content.cloneNode(true);
+        tpl.querySelector('span.font-medium').textContent = label;
+        tpl.querySelectorAll('span')[1].textContent = val + '%';
+        this.appendChild(tpl);
+      }
+    });
+    customElements.define('Tag', class extends HTMLElement {
+      connectedCallback() {
+        const tpl = document.getElementById('tagTemplate').content.cloneNode(true);
+        tpl.querySelector('span').textContent = this.textContent;
+        this.textContent = '';
+        this.appendChild(tpl);
+      }
+    });
+
+    // Animate skill bars when visible
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          document.querySelectorAll('.skill-progress').forEach(p=>{
+            const pct = p.closest('div').previousElementSibling?.querySelectorAll('span')[1]?.textContent?.replace('%','') || '0';
+            requestAnimationFrame(()=>{ p.style.width = pct + '%'; });
+          });
+          io.disconnect();
+        }
+      });
+    }, {threshold:.25});
+    io.observe(document.querySelector('#skills'));
+
+    // Contact form via EmailJS (no URL change)
     const statusEl = document.getElementById('contactStatus');
     const form = document.getElementById('contactForm');
-
-    // Initialize EmailJS
     emailjs.init(EMAILJS_PUBLIC_KEY);
-
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       statusEl.textContent = 'Sending...';
-
       const payload = {
         from_name:  form.from_name.value,
         from_email: form.from_email.value,
         subject:    form.subject.value,
         message:    form.message.value
       };
-
       try {
-        // Basic guard if keys not set
         if (!EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID ||
             EMAILJS_PUBLIC_KEY.includes('YOUR_') || EMAILJS_SERVICE_ID.includes('YOUR_') || EMAILJS_TEMPLATE_ID.includes('YOUR_')) {
           throw new Error('EmailJS keys not set');
         }
-
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, payload);
         statusEl.textContent = 'Message sent! I will get back to you soon.';
         form.reset();
@@ -585,7 +741,13 @@
         statusEl.textContent = 'Failed to send. Please try again later.';
       }
     });
-    // -------------------------------------------------------------------------------
+
+    // Flip card toggles (click / Enter / Space)
+    function toggleFlip(el){ el.classList.toggle('flipped'); }
+    document.querySelectorAll('.project-card').forEach(card=>{
+      card.addEventListener('click', ()=>toggleFlip(card));
+      card.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); toggleFlip(card); } });
+    });
   </script>
 </body>
 </html>
