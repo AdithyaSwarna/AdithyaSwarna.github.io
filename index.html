@@ -41,14 +41,13 @@
     .skill-bar { height: 8px; background:#e5e7eb; border-radius:6px; overflow:hidden; }
     .skill-progress { height:100%; width:0%; transition:width 1.1s ease; }
 
-    /* ==== Flip Cards (Fixed visibility + height) ==== */
+    /* ==== Flip Cards (fixed) ==== */
     .project-card {
       perspective: 1000px;
-      cursor: pointer;
-      height: 340px;             /* ensure both faces share height */
+      height: 360px;
       position: relative;
-      border-radius: 0.75rem;    /* match rounded corners */
-      overflow: hidden;          /* keep faces clipped to radius */
+      border-radius: 0.75rem;
+      overflow: hidden;
     }
     .flip-inner {
       position: relative;
@@ -57,34 +56,30 @@
       transform-style: preserve-3d;
       transition: transform 0.6s;
     }
-    .project-card.flipped .flip-inner {
-      transform: rotateY(180deg);
-    }
+    .project-card.flipped .flip-inner { transform: rotateY(180deg); }
     .flip-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      position: absolute; width: 100%; height: 100%;
       top: 0; left: 0;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-    }
-    .flip-front {
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
       background-color: inherit;
-      z-index: 2;
     }
-    .flip-front img {
-      height: 160px;
-      width: 100%;
-      object-fit: cover;
-    }
-    .flip-back {
-      background-color: inherit;
-      transform: rotateY(180deg);
-      padding: 1.25rem;
-      overflow-y: auto;          /* scroll if points exceed card height */
-      z-index: 1;
-    }
+    .flip-front img { height: 160px; width: 100%; object-fit: cover; }
+    .flip-back { transform: rotateY(180deg); padding: 1.25rem; overflow-y: auto; }
     .flip-bullets li { list-style: disc; margin-left: 1rem; }
+
+    /* Buttons */
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.55rem .95rem; border-radius:.75rem; font-weight:600; font-size:.9rem; }
+    .btn-primary { background:#6366f1; color:#fff; }
+    .btn-outline { border:2px solid #6366f1; color:#6366f1; background:transparent; }
+    .btn:hover { filter: brightness(1.05); }
+
+    /* Modal */
+    .modal-wrap { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; }
+    .modal-wrap.show { display: flex; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(2,6,23,.6); backdrop-filter: blur(2px); }
+    .modal { position: relative; z-index: 10; width: min(800px, 92vw); max-height: 86vh; overflow: auto; border-radius: 1rem; }
+    .modal .close { position:absolute; top:.5rem; right:.5rem; }
+
     .project-card:focus { outline: 3px solid rgba(99,102,241,.6); outline-offset: 2px; }
   </style>
 </head>
@@ -202,7 +197,6 @@
       <p class="text-center text-slate-600 dark:text-slate-300 mb-12">What I use to ship</p>
 
       <div class="grid md:grid-cols-2 gap-8">
-        <!-- Col 1 -->
         <div class="space-y-5">
           <Skill label="Python" val="95"></Skill>
           <Skill label="System Design & DS/Algo" val="85"></Skill>
@@ -211,7 +205,6 @@
           <Skill label="Docker / CI/CD" val="80"></Skill>
           <Skill label="AWS (core)" val="70"></Skill>
         </div>
-        <!-- Col 2 -->
         <div class="space-y-5">
           <Skill label="Integrations (REST APIs, 3rd-party)" val="85"></Skill>
           <Skill label="JavaScript / Node.js (basics)" val="65"></Skill>
@@ -277,217 +270,343 @@
   <section id="projects" class="py-20 bg-gray-50 dark:bg-slate-950">
     <div class="max-w-6xl mx-auto px-6">
       <h2 class="text-3xl font-bold text-center mb-3">Selected <span class="text-primary">Projects</span></h2>
-      <p class="text-center text-slate-600 dark:text-slate-300 mb-12">Click a card to flip for details</p>
+      <p class="text-center text-slate-600 dark:text-slate-300 mb-12">Use <b>Quick points</b> to flip, or <b>See details</b> for a full write-up.</p>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
         <!-- RAG Pipeline -->
-        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="RAG Pipeline details">
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div class="flip-inner">
             <div class="flip-front flip-face">
               <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="RAG">
-              <div class="p-5">
-                <h3 class="font-semibold text-lg">RAG Pipeline (O-RAN)</h3>
-                <p class="text-sm mt-1">Summarization & QA with chunking, embeddings, and context routing; Python + Flask.</p>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs">
-                  <Tag>Python</Tag><Tag>Flask</Tag><Tag>FAISS</Tag><Tag>Chroma</Tag>
+              <div class="p-5 h-[200px] flex flex-col">
+                <div>
+                  <h3 class="font-semibold text-lg">RAG Pipeline (O-RAN)</h3>
+                  <p class="text-sm mt-1">Summarization & QA with chunking, embeddings, and context routing; Python + Flask.</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>Python</Tag><Tag>Flask</Tag><Tag>FAISS</Tag><Tag>Chroma</Tag></div>
+                  <a class="inline-flex items-center gap-2 text-primary mt-3" href="https://github.com/AdithyaSwarna/LLM_ORAN_RAG/tree/main" target="_blank" rel="noopener"><i data-feather="external-link"></i> Repo</a>
                 </div>
-                <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://github.com/AdithyaSwarna/LLM_ORAN_RAG/tree/main" target="_blank" rel="noopener"><i data-feather="external-link"></i> Repo</a>
+                <div class="mt-auto grid grid-cols-2 gap-2">
+                  <button class="btn btn-primary flip-btn w-full" aria-label="Flip RAG card">Quick points</button>
+                  <button class="btn btn-outline details-btn w-full" aria-label="Details RAG">See details</button>
+                </div>
               </div>
             </div>
             <div class="flip-back flip-face">
               <h4 class="font-semibold mb-2">Highlights</h4>
               <ul class="text-sm flip-bullets space-y-2">
-                <li>Ingestion → cleaning → dynamic chunking → Nomic embeddings → FAISS retrieval (+rerank).</li>
-                <li>Latency-aware prompt flow; context windows tuned via evals on held-out questions.</li>
-                <li>Guardrails for citation & answer length; modular pipeline ready for UI upload flow.</li>
+                <li>ETL: PDF/HTML ingestion → cleaning → adaptive chunking; metadata kept for citations.</li>
+                <li>FAISS + re-ranking; measured recall@k and latency; guardrails for token limits & hallucinations.</li>
+                <li>Flask API with async preprocess queue; Dockerized dev workflow.</li>
               </ul>
+              <button class="btn btn-outline flip-back-btn mt-4 w-full">Back</button>
+
+              <!-- Hidden details for modal -->
+              <div class="details-content hidden">
+                <p class="mb-3">Built an end-to-end Retrieval Augmented Generation system focused on O-RAN spec documents.</p>
+                <ul class="list-disc ml-5 space-y-2">
+                  <li><b>Ingestion:</b> PDF/HTML scraping, de-dup, boilerplate stripping, and semantic chunking with overlap.</li>
+                  <li><b>Indexing:</b> Nomic/Instructor embeddings → FAISS IVF; hybrid BM25 fallback; re-rank with cosine.</li>
+                  <li><b>Serving:</b> Context-aware prompts, truncation strategy, answer length caps, and citation stitching.</li>
+                  <li><b>Eval:</b> Curated Q/A set; tracked accuracy, context hit-rate, and p50/p95 latency.</li>
+                  <li><b>Stack:</b> Python, Flask, FAISS, Chroma, Docker; Postman test suite.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- YouTube Timestamps Jumper -->
-        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="YouTube Timestamps Jumper details">
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div class="flip-inner">
             <div class="flip-front flip-face">
               <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=1200&auto=format&fit=crop" alt="Chrome Ext">
-              <div class="p-5">
-                <h3 class="font-semibold text-lg">YouTube Timestamps Jumper</h3>
-                <p class="text-sm mt-1">Bookmark, jump, and loop specific timestamps; persistent storage.</p>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs">
-                  <Tag>JavaScript</Tag><Tag>Chrome</Tag>
+              <div class="p-5 h-[200px] flex flex-col">
+                <div>
+                  <h3 class="font-semibold text-lg">YouTube Timestamps Jumper</h3>
+                  <p class="text-sm mt-1">Bookmark, jump, and loop specific timestamps; persistent storage.</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>JavaScript</Tag><Tag>Chrome</Tag></div>
+                  <a class="inline-flex items-center gap-2 text-primary mt-3" href="https://github.com/AdithyaSwarna/youtube-timestamps-jumper/tree/main" target="_blank" rel="noopener"><i data-feather="external-link"></i> Repo</a>
                 </div>
-                <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://github.com/AdithyaSwarna/youtube-timestamps-jumper/tree/main" target="_blank" rel="noopener"><i data-feather="external-link"></i> Repo</a>
+                <div class="mt-auto grid grid-cols-2 gap-2">
+                  <button class="btn btn-primary flip-btn w-full">Quick points</button>
+                  <button class="btn btn-outline details-btn w-full">See details</button>
+                </div>
               </div>
             </div>
             <div class="flip-back flip-face">
               <h4 class="font-semibold mb-2">Highlights</h4>
               <ul class="text-sm flip-bullets space-y-2">
-                <li>Content-script overlay with keyboard shortcuts for set/jump/loop segments.</li>
-                <li>Syncs marks using Chrome storage APIs; resilient to page reloads & navigation.</li>
-                <li>Lightweight architecture for low overhead on video playback.</li>
+                <li>Overlay UI with keyboard shortcuts for set/jump/loop on any video.</li>
+                <li>Chrome storage sync; resilient across reloads and navigation events.</li>
+                <li>Low overhead content script; import/export of timestamp sets.</li>
               </ul>
+              <button class="btn btn-outline flip-back-btn mt-4 w-full">Back</button>
+              <div class="details-content hidden">
+                <p class="mb-3">Chrome extension improving study/workflow for long-form videos.</p>
+                <ul class="list-disc ml-5 space-y-2">
+                  <li>Declarative content scripts with permissions minimization; isolated world messaging.</li>
+                  <li>Timestamp data model supports labels, color tags, and loop flags.</li>
+                  <li>Robust seek/jump on YouTube’s dynamic player using MutationObserver.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- AI Agent Builder -->
-        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="AI Agent Builder details">
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div class="flip-inner">
             <div class="flip-front flip-face">
               <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="AI Agent">
-              <div class="p-5">
-                <h3 class="font-semibold text-lg">AI Agent Builder (WIP)</h3>
-                <p class="text-sm mt-1">Agents on FastAPI + PostgreSQL + Redis; Dockerized with CI/CD.</p>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs">
-                  <Tag>FastAPI</Tag><Tag>PostgreSQL</Tag><Tag>Redis</Tag><Tag>Docker</Tag>
+              <div class="p-5 h-[200px] flex flex-col">
+                <div>
+                  <h3 class="font-semibold text-lg">AI Agent Builder (WIP)</h3>
+                  <p class="text-sm mt-1">Agents on FastAPI + PostgreSQL + Redis; Dockerized with CI/CD.</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>FastAPI</Tag><Tag>PostgreSQL</Tag><Tag>Redis</Tag><Tag>Docker</Tag></div>
+                </div>
+                <div class="mt-auto grid grid-cols-2 gap-2">
+                  <button class="btn btn-primary flip-btn w-full">Quick points</button>
+                  <button class="btn btn-outline details-btn w-full">See details</button>
                 </div>
               </div>
             </div>
             <div class="flip-back flip-face">
               <h4 class="font-semibold mb-2">Highlights</h4>
               <ul class="text-sm flip-bullets space-y-2">
-                <li>Planner–executor design with vector memory & task queues (Redis streams).</li>
-                <li>Typed API, pydantic models, and unit tests; GitHub Actions for CI.</li>
-                <li>Containerized microservices for local dev + staged deployment.</li>
+                <li>Planner–executor loop with tool registry; vector memory abstraction.</li>
+                <li>Typed API (pydantic), JWT auth, per-user rate limits.</li>
+                <li>Redis streams for task queues; retries & dead-letter handling.</li>
               </ul>
+              <button class="btn btn-outline flip-back-btn mt-4 w-full">Back</button>
+              <div class="details-content hidden">
+                <ul class="list-disc ml-5 space-y-2">
+                  <li>Composable tools with capability schema and safety checks.</li>
+                  <li>PG schema for agents, tasks, memory; alembic migrations.</li>
+                  <li>GitHub Actions: lint, tests, image build & push; IaC-ready.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Conway’s Game of Life -->
-        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="Conway's Game of Life details">
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div class="flip-inner">
             <div class="flip-front flip-face">
               <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop" alt="CUDA">
-              <div class="p-5">
-                <h3 class="font-semibold text-lg">Conway’s Game of Life (GPU)</h3>
-                <p class="text-sm mt-1">NumPy optimizations & CUDA parallelization; up to ~10× speedup.</p>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs">
-                  <Tag>CUDA</Tag><Tag>NumPy</Tag><Tag>Python</Tag>
+              <div class="p-5 h-[200px] flex flex-col">
+                <div>
+                  <h3 class="font-semibold text-lg">Conway’s Game of Life (GPU)</h3>
+                  <p class="text-sm mt-1">NumPy optimizations & CUDA parallelization; up to ~10× speedup.</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>CUDA</Tag><Tag>NumPy</Tag><Tag>Python</Tag></div>
+                </div>
+                <div class="mt-auto grid grid-cols-2 gap-2">
+                  <button class="btn btn-primary flip-btn w-full">Quick points</button>
+                  <button class="btn btn-outline details-btn w-full">See details</button>
                 </div>
               </div>
             </div>
             <div class="flip-back flip-face">
               <h4 class="font-semibold mb-2">Highlights</h4>
               <ul class="text-sm flip-bullets space-y-2">
-                <li>Tiled memory access & shared-memory kernels; minimized global reads.</li>
-                <li>Vectorized CPU baseline vs CUDA benchmarks; deterministic stepper.</li>
-                <li>Interactive visualization for pattern evolution & performance demos.</li>
+                <li>Shared-memory tiles and coalesced loads to reduce global reads.</li>
+                <li>Vectorized CPU baseline vs CUDA; deterministic kernels.</li>
+                <li>Configurable grid & rules; benchmark harness with plots.</li>
               </ul>
+              <button class="btn btn-outline flip-back-btn mt-4 w-full">Back</button>
+              <div class="details-content hidden">
+                <ul class="list-disc ml-5 space-y-2">
+                  <li>Naive → tiled → shared-mem kernels compared; occupancy tuning.</li>
+                  <li>Numpy stride tricks for fast CPU baseline; correctness tests.</li>
+                  <li>Interactive viewer (PyQt/Matplotlib) for demos.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- 8×8 XOR CAM -->
-        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="8x8 XOR CAM details">
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div class="flip-inner">
             <div class="flip-front flip-face">
               <img src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?q=80&w=1200&auto=format&fit=crop" alt="IEEE">
-              <div class="p-5">
-                <h3 class="font-semibold text-lg">8×8 XOR CAM — IEEE Published</h3>
-                <p class="text-sm mt-1">Low-power XOR-CAM (20ns search) with optimized SRAM and control.</p>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>VLSI</Tag><Tag>SRAM</Tag></div>
-                <a class="mt-4 inline-flex items-center gap-2 text-primary" href="https://ieeexplore.ieee.org/document/9298389" target="_blank" rel="noopener"><i data-feather="external-link"></i> Paper</a>
+              <div class="p-5 h-[200px] flex flex-col">
+                <div>
+                  <h3 class="font-semibold text-lg">8×8 XOR CAM — IEEE Published</h3>
+                  <p class="text-sm mt-1">Low-power XOR-CAM (20ns search) with optimized SRAM and control.</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>VLSI</Tag><Tag>SRAM</Tag></div>
+                  <a class="inline-flex items-center gap-2 text-primary mt-3" href="https://ieeexplore.ieee.org/document/9298389" target="_blank" rel="noopener"><i data-feather="external-link"></i> Paper</a>
+                </div>
+                <div class="mt-auto grid grid-cols-2 gap-2">
+                  <button class="btn btn-primary flip-btn w-full">Quick points</button>
+                  <button class="btn btn-outline details-btn w-full">See details</button>
+                </div>
               </div>
             </div>
             <div class="flip-back flip-face">
               <h4 class="font-semibold mb-2">Highlights</h4>
               <ul class="text-sm flip-bullets space-y-2">
-                <li>Custom XOR match-line design for content address with improved energy profile.</li>
-                <li>SRAM-based array, control FSM, and simulation testbench for timing/power.</li>
-                <li>Peer-reviewed publication; reproducible methodology & results.</li>
+                <li>XOR match-line for parallel content address at low energy.</li>
+                <li>SRAM array + control FSM; timing/power validated.</li>
+                <li>Reproducible testbench; trade-offs vs conventional CAMs.</li>
               </ul>
+              <button class="btn btn-outline flip-back-btn mt-4 w-full">Back</button>
+              <div class="details-content hidden">
+                <ul class="list-disc ml-5 space-y-2">
+                  <li>Spice/Verilog sims for delay & power; energy/bit search metrics.</li>
+                  <li>Sizing and layout considerations for match lines & sense amps.</li>
+                  <li>Interfaces and opportunity for larger arrays.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- SpaceX Landing -->
-        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="SpaceX landing prediction details">
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div class="flip-inner">
             <div class="flip-front flip-face">
               <img src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1200&auto=format&fit=crop" alt="SpaceX">
-              <div class="p-5">
-                <h3 class="font-semibold text-lg">SpaceX Landing Prediction</h3>
-                <p class="text-sm mt-1">ML classification with ~87% accuracy; scikit-learn + SQL, EDA & viz.</p>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>scikit-learn</Tag><Tag>SQL</Tag><Tag>Plotly</Tag></div>
+              <div class="p-5 h-[200px] flex flex-col">
+                <div>
+                  <h3 class="font-semibold text-lg">SpaceX Landing Prediction</h3>
+                  <p class="text-sm mt-1">ML classification with ~87% accuracy; scikit-learn + SQL, EDA & viz.</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>scikit-learn</Tag><Tag>SQL</Tag><Tag>Plotly</Tag></div>
+                </div>
+                <div class="mt-auto grid grid-cols-2 gap-2">
+                  <button class="btn btn-primary flip-btn w-full">Quick points</button>
+                  <button class="btn btn-outline details-btn w-full">See details</button>
+                </div>
               </div>
             </div>
             <div class="flip-back flip-face">
               <h4 class="font-semibold mb-2">Highlights</h4>
               <ul class="text-sm flip-bullets space-y-2">
-                <li>Feature engineering from telemetry; class imbalance handled via stratified CV.</li>
-                <li>Compared tree-based models & logistic regression; SHAP for feature importance.</li>
-                <li>Interactive dashboards for model insights and scenario exploration.</li>
+                <li>Feature engineering from telemetry + weather; stratified CV.</li>
+                <li>Compared LR, RF, XGBoost; SHAP & permutation importance.</li>
+                <li>Plotly dashboards for scenario analysis and reporting.</li>
               </ul>
+              <button class="btn btn-outline flip-back-btn mt-4 w-full">Back</button>
+              <div class="details-content hidden">
+                <ul class="list-disc ml-5 space-y-2">
+                  <li>Cleaned public datasets; SQL pipelines for reproducibility.</li>
+                  <li>Confusion matrix, ROC, PR curves; threshold tuning.</li>
+                  <li>Interactive notebook + dashboard for exploration.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Automation: Selenium -->
-        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="Automation project details">
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div class="flip-inner">
             <div class="flip-front flip-face">
               <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?q=80&w=1200&auto=format&fit=crop" alt="Automation">
-              <div class="p-5">
-                <h3 class="font-semibold text-lg">Automation: Python + Selenium</h3>
-                <p class="text-sm mt-1">Scraping, system tasks, and dashboards with Flask + MongoDB.</p>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>Selenium</Tag><Tag>Flask</Tag><Tag>MongoDB</Tag></div>
+              <div class="p-5 h-[200px] flex flex-col">
+                <div>
+                  <h3 class="font-semibold text-lg">Automation: Python + Selenium</h3>
+                  <p class="text-sm mt-1">Scraping, system tasks, and dashboards with Flask + MongoDB.</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>Selenium</Tag><Tag>Flask</Tag><Tag>MongoDB</Tag></div>
+                </div>
+                <div class="mt-auto grid grid-cols-2 gap-2">
+                  <button class="btn btn-primary flip-btn w-full">Quick points</button>
+                  <button class="btn btn-outline details-btn w-full">See details</button>
+                </div>
               </div>
             </div>
             <div class="flip-back flip-face">
               <h4 class="font-semibold mb-2">Highlights</h4>
               <ul class="text-sm flip-bullets space-y-2">
                 <li>Headless crawlers with login flows, retries, and structured extraction.</li>
-                <li>REST endpoints for jobs & results; dashboard for status/metrics.</li>
-                <li>Background workers for stability; configurable schedules.</li>
+                <li>Flask REST API for job queue + results; status dashboard.</li>
+                <li>Background workers and schedules; CSV export for analysts.</li>
               </ul>
+              <button class="btn btn-outline flip-back-btn mt-4 w-full">Back</button>
+              <div class="details-content hidden">
+                <ul class="list-disc ml-5 space-y-2">
+                  <li>Session management and anti-bot mitigation (random UA, backoff).</li>
+                  <li>MongoDB raw vs cleaned collections; pipeline for dedup & QA.</li>
+                  <li>Grafana-lite charts (Plotly) for throughput and errors.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Client–Server CRUD -->
-        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="Client–Server CRUD details">
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div class="flip-inner">
             <div class="flip-front flip-face">
               <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop" alt=".NET CRUD">
-              <div class="p-5">
-                <h3 class="font-semibold text-lg">Client–Server CRUD (C#/.NET + Flask)</h3>
-                <p class="text-sm mt-1">WPF client, Flask API, SQLite; validation, bulk delete, recovery.</p>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>C#</Tag><Tag>.NET/WPF</Tag><Tag>Flask</Tag></div>
+              <div class="p-5 h-[200px] flex flex-col">
+                <div>
+                  <h3 class="font-semibold text-lg">Client–Server CRUD (C#/.NET + Flask)</h3>
+                  <p class="text-sm mt-1">WPF client, Flask API, SQLite; validation, bulk delete, recovery.</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>C#</Tag><Tag>.NET/WPF</Tag><Tag>Flask</Tag></div>
+                </div>
+                <div class="mt-auto grid grid-cols-2 gap-2">
+                  <button class="btn btn-primary flip-btn w-full">Quick points</button>
+                  <button class="btn btn-outline details-btn w-full">See details</button>
+                </div>
               </div>
             </div>
             <div class="flip-back flip-face">
               <h4 class="font-semibold mb-2">Highlights</h4>
               <ul class="text-sm flip-bullets space-y-2">
                 <li>MVVM WPF client with offline cache; token auth to Flask backend.</li>
-                <li>Pagination, search, bulk operations, and soft-delete recovery.</li>
-                <li>Input validation & error boundaries; unit tests for service layer.</li>
+                <li>Pagination, search, bulk ops, soft-delete recovery, audit trail.</li>
+                <li>Validation on client and API; service-layer unit tests.</li>
               </ul>
+              <button class="btn btn-outline flip-back-btn mt-4 w-full">Back</button>
+              <div class="details-content hidden">
+                <ul class="list-disc ml-5 space-y-2">
+                  <li>Single-file WPF packaging; auto-update strategy.</li>
+                  <li>SQLite schema with foreign keys and cascades; seed data.</li>
+                  <li>Typed client SDK generation from OpenAPI spec.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Financial Data Analytics -->
-        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" role="button" tabindex="0" aria-label="Financial analytics details">
+        <div class="project-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <div class="flip-inner">
             <div class="flip-front flip-face">
               <img src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?q=80&w=1200&auto=format&fit=crop" alt="Finance Viz">
-              <div class="p-5">
-                <h3 class="font-semibold text-lg">Financial Data Analytics</h3>
-                <p class="text-sm mt-1">Plotly dashboards for trends & KPIs; data pipelines in Python.</p>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>Pandas</Tag><Tag>Plotly</Tag><Tag>ETL</Tag></div>
+              <div class="p-5 h-[200px] flex flex-col">
+                <div>
+                  <h3 class="font-semibold text-lg">Financial Data Analytics</h3>
+                  <p class="text-sm mt-1">Plotly dashboards for trends & KPIs; data pipelines in Python.</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs"><Tag>Pandas</Tag><Tag>Plotly</Tag><Tag>ETL</Tag></div>
+                </div>
+                <div class="mt-auto grid grid-cols-2 gap-2">
+                  <button class="btn btn-primary flip-btn w-full">Quick points</button>
+                  <button class="btn btn-outline details-btn w-full">See details</button>
+                </div>
               </div>
             </div>
             <div class="flip-back flip-face">
               <h4 class="font-semibold mb-2">Highlights</h4>
               <ul class="text-sm flip-bullets space-y-2">
-                <li>ETL jobs to unify CSV/API sources; robust parsing & schema checks.</li>
-                <li>Time-series KPIs, anomaly detection, and alert thresholds.</li>
-                <li>Exportable visuals for reports; parameterized filters.</li>
+                <li>ETL to unify CSV/API sources; schema validation and typed data models.</li>
+                <li>Time-series KPIs, thresholds, anomaly detection, and alerting.</li>
+                <li>Interactive filters and exportable visuals for stakeholder reports.</li>
               </ul>
+              <button class="btn btn-outline flip-back-btn mt-4 w-full">Back</button>
+              <div class="details-content hidden">
+                <ul class="list-disc ml-5 space-y-2">
+                  <li>Airflow-style scheduled jobs (cron) + caching for snappy dashboards.</li>
+                  <li>Drilldown charts (Plotly) and CSV/XLSX export.</li>
+                  <li>CI checks for schema drift using tests on sample payloads.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
+
       </div> <!-- grid -->
     </div>
   </section>
@@ -547,36 +666,23 @@
       <p class="text-center text-slate-600 dark:text-slate-300 mb-8">Open to SWE, Backend, Infra, and data-driven roles.</p>
 
       <div class="mx-auto max-w-2xl">
-        <!-- Contact form -->
         <form id="contactForm" class="grid gap-4" novalidate>
           <label class="grid gap-2">
             <span class="text-sm font-medium">Your Name</span>
-            <input type="text" name="from_name" required
-                   class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800"
-                   placeholder="Your full name">
+            <input type="text" name="from_name" required class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800" placeholder="Your full name">
           </label>
-
           <label class="grid gap-2">
             <span class="text-sm font-medium">Your Email</span>
-            <input type="email" name="from_email" required
-                   class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800"
-                   placeholder="name@example.com">
+            <input type="email" name="from_email" required class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800" placeholder="name@example.com">
           </label>
-
           <label class="grid gap-2">
             <span class="text-sm font-medium">Subject</span>
-            <input type="text" name="subject" required
-                   class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800"
-                   placeholder="Subject">
+            <input type="text" name="subject" required class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800" placeholder="Subject">
           </label>
-
           <label class="grid gap-2">
             <span class="text-sm font-medium">Message</span>
-            <textarea name="message" required rows="6"
-                      class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800"
-                      placeholder="Write your message here..."></textarea>
+            <textarea name="message" required rows="6" class="border rounded-lg px-4 py-2 bg-white dark:bg-slate-800" placeholder="Write your message here..."></textarea>
           </label>
-
           <button type="submit" class="bg-primary text-white px-6 py-3 rounded-xl">Submit</button>
           <p id="contactStatus" class="text-xs text-slate-500"></p>
         </form>
@@ -588,34 +694,37 @@
     © <span id="year"></span> Adithya Swarna — Built with ♥
   </footer>
 
-  <!-- TEMPLATES (mini web-components) -->
+  <!-- TEMPLATES -->
   <template id="skillTemplate">
     <div>
       <div class="flex items-center justify-between mb-1">
         <span class="font-medium"></span><span class="text-xs text-slate-500"></span>
       </div>
-      <div class="skill-bar">
-        <div class="skill-progress bg-primary"></div>
-      </div>
+      <div class="skill-bar"><div class="skill-progress bg-primary"></div></div>
     </div>
   </template>
+  <template id="tagTemplate"><span class="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full"></span></template>
 
-  <template id="tagTemplate">
-    <span class="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full"></span>
-  </template>
+  <!-- MODAL -->
+  <div id="detailsModal" class="modal-wrap">
+    <div class="modal-backdrop"></div>
+    <div class="modal bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl">
+      <button class="close btn btn-outline" aria-label="Close">Close</button>
+      <h3 id="modalTitle" class="text-xl font-semibold mb-3">Title</h3>
+      <div id="modalBody" class="prose prose-sm dark:prose-invert max-w-none"></div>
+    </div>
+  </div>
 
   <!-- APP SCRIPT -->
   <script>
-    // -------- EmailJS CONFIG (replace placeholders) --------
+    // -------- EmailJS (replace) --------
     const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
     const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
     const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-    // -------------------------------------------------------
 
-    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Theme toggle with persistence
+    // Theme toggle
     const themeToggle = document.getElementById('themeToggle');
     const root = document.documentElement;
     const savedTheme = localStorage.getItem('theme');
@@ -640,24 +749,21 @@
     // Feather icons
     document.addEventListener('DOMContentLoaded', ()=>feather.replace());
 
-    // Vanta background
+    // Vanta
     let vanta;
     function initVanta(){
       if (vanta) vanta.destroy();
       vanta = VANTA.NET({
         el: "#vanta-bg",
-        mouseControls: true,
-        touchControls: true,
+        mouseControls: true, touchControls: true,
         color: 0x6366f1,
         backgroundColor: document.documentElement.classList.contains('dark') ? 0x0b1220 : 0xffffff,
-        points: 10.0,
-        maxDistance: 22.0,
-        spacing: 16.0
+        points: 10.0, maxDistance: 22.0, spacing: 16.0
       });
     }
     window.addEventListener('load', initVanta);
 
-    // Smooth-scroll offset fix & hide hash in URL
+    // Smooth-scroll without hash
     function smoothScrollNoHash(anchor){
       const id = anchor.getAttribute('href').slice(1);
       const el = document.getElementById(id);
@@ -668,10 +774,7 @@
       menuToggle.setAttribute('aria-expanded','false');
     }
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        e.preventDefault();
-        smoothScrollNoHash(a);
-      });
+      a.addEventListener('click', (e)=>{ e.preventDefault(); smoothScrollNoHash(a); });
     });
     if (location.hash) {
       const id = location.hash.slice(1);
@@ -701,7 +804,7 @@
       }
     });
 
-    // Animate skill bars when visible
+    // Animate skill bars
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
         if(e.isIntersecting){
@@ -715,7 +818,7 @@
     }, {threshold:.25});
     io.observe(document.querySelector('#skills'));
 
-    // Contact form via EmailJS (no URL change)
+    // Contact form (no URL params)
     const statusEl = document.getElementById('contactStatus');
     const form = document.getElementById('contactForm');
     emailjs.init(EMAILJS_PUBLIC_KEY);
@@ -742,12 +845,53 @@
       }
     });
 
-    // Flip card toggles (click / Enter / Space)
-    function toggleFlip(el){ el.classList.toggle('flipped'); }
-    document.querySelectorAll('.project-card').forEach(card=>{
-      card.addEventListener('click', ()=>toggleFlip(card));
-      card.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); toggleFlip(card); } });
+    // ---------- Flip + Details ----------
+    // Event delegation for buttons inside cards
+    document.addEventListener('click', (e) => {
+      const flipBtn = e.target.closest('.flip-btn');
+      const backBtn = e.target.closest('.flip-back-btn');
+      const detailsBtn = e.target.closest('.details-btn');
+
+      if (flipBtn) {
+        flipBtn.closest('.project-card')?.classList.add('flipped');
+      }
+      if (backBtn) {
+        backBtn.closest('.project-card')?.classList.remove('flipped');
+      }
+      if (detailsBtn) {
+        const card = detailsBtn.closest('.project-card');
+        const title = card.querySelector('h3')?.textContent?.trim() || 'Project';
+        const content = card.querySelector('.details-content')?.innerHTML || '<p>No details provided.</p>';
+        openModal(title, content);
+      }
     });
+
+    // Prevent link clicks from bubbling (don’t flip/open)
+    document.querySelectorAll('.project-card a[href]').forEach(a=>{
+      a.addEventListener('click', (ev)=> ev.stopPropagation());
+    });
+
+    // Modal handlers
+    const modalWrap = document.getElementById('detailsModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = modalWrap.querySelector('.close');
+    const modalBackdrop = modalWrap.querySelector('.modal-backdrop');
+
+    function openModal(title, html){
+      modalTitle.textContent = title;
+      modalBody.innerHTML = html;
+      modalWrap.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modalWrap.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    modalClose.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+    window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape' && modalWrap.classList.contains('show')) closeModal(); });
+    // -----------------------------------
   </script>
 </body>
 </html>
